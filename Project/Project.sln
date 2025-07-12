@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project", "Project.csproj", "{1C624C0C-7787-42C8-8CB3-BA33C78824EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerator", "..\SourceGenerator\SourceGenerator.csproj", "{10230F2F-6460-4746-B5E6-11FC89E782D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{1C624C0C-7787-42C8-8CB3-BA33C78824EB}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10230F2F-6460-4746-B5E6-11FC89E782D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
