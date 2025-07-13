@@ -17,7 +17,7 @@ public partial class CSV
     {{- range .}}
     public class {{.Name}}
     {
-        public static List<{{.Name}}> Data { get; private set; } = new();
+        public static List<{{.Name}}> Data { get; private set; }
 
         private {{.Name}}(string[] data)
         {
@@ -40,6 +40,8 @@ public partial class CSV
 
         public static void Load()
         {
+            if (Data != null) return;
+            Data = [];
             using var fa = FileAccess.Open("{{.Path}}", FileAccess.ModeFlags.Read);
             while (!fa.EofReached()) Data.Add(new(fa.GetCsvLine("\t")));
         }

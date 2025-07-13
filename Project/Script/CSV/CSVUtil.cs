@@ -4,6 +4,7 @@ namespace Franken;
 
 /// <summary>
 /// 从表格导入的数据
+/// <br/>记得先加载再使用
 /// </summary>
 public partial class CSV
 {

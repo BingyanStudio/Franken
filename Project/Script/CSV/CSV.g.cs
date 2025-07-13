@@ -14,7 +14,7 @@ public partial class CSV
 
     public class ActorBodyPart
     {
-        public static List<ActorBodyPart> Data { get; private set; } = new();
+        public static List<ActorBodyPart> Data { get; private set; }
 
         private ActorBodyPart(string[] data)
         {
@@ -47,6 +47,8 @@ public partial class CSV
 
         public static void Load()
         {
+            if (Data != null) return;
+            Data = [];
             using var fa = FileAccess.Open("res://Assets/Config/CSV/ActorBodyPart.txt", FileAccess.ModeFlags.Read);
             while (!fa.EofReached()) Data.Add(new(fa.GetCsvLine("\t")));
         }
