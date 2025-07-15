@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7h7nkm6m1g08"]
+
+[ext_resource type="Script" uid="uid://dbxw3f7jgmjeb" path="res://Script/UI/UIManager.cs" id="1_7d480"]
+
+[node name="UiManager" type="Control" node_paths=PackedStringArray("canvasNormal", "cacheRoot")]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7d480")
+canvasNormal = NodePath("CanvasNormal")
+cacheRoot = NodePath("CacheRoot")
+
+[node name="CanvasNormal" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CacheRoot" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

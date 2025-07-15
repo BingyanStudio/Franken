@@ -38,7 +38,6 @@ public class EnumDescriptionSourceGenerator : IIncrementalGenerator
                     sourceProductionContext.AddSource($"{enumSymbol.GetFullName().Replace(".", "")}Descriptions.g.cs", SourceText.From(source, Encoding.UTF8));
                 }
             }
-
         });
     }
 

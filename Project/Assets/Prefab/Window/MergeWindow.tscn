@@ -1,17 +1,43 @@
-[gd_scene format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=6 format=3 uid="uid://ebspk8418s36"]
+
+[ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/MergeWindow.cs" id="1_dnhj5"]
+[ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_kt511"]
+
+[sub_resource type="Animation" id="Animation_tt1g2"]
+resource_name = "hide"
+
+[sub_resource type="Animation" id="Animation_aa146"]
+resource_name = "show"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_v0b5x"]
+_data = {
+&"hide": SubResource("Animation_tt1g2"),
+&"show": SubResource("Animation_aa146")
+}
 
 [node name="MergeWindow" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -768.0
+offset_bottom = -432.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_dnhj5")
 
 [node name="Bg" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 768.0
+offset_bottom = 432.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_kt511")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_v0b5x")
+}
