@@ -1,18 +1,18 @@
+using System.IO;
+using System.Text.Json;
+
 namespace Franken;
 
 public static class ArchiveUtil
 {
-    public static void Save<T>(string path, T target) where T : ICustomSerializable
-    {
-        using var data = new CustomSerializeData();
-        target.Serialize(data);
-        data.Save(path);
-    }
+    private static readonly JsonSerializerOptions option = new() { WriteIndented = true };
 
-    public static void Load<T>(string path, T target) where T : ICustomSerializable
+    public static string Serialize<T>(T data) => JsonSerializer.Serialize(data, option);
+    public static T Deserialize<T>(string data) => JsonSerializer.Deserialize<T>(data);
+
+    public static void EnsureDirectory(string path)
     {
-        using var data = new CustomSerializeData();
-        data.Load(path);
-        target.Deserialize(data);
+        var dir = Path.GetDirectoryName(path);
+        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
     }
 }

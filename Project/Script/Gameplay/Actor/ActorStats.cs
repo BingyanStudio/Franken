@@ -3,7 +3,7 @@ namespace Franken;
 /// <summary>
 /// 角色的基本属性
 /// </summary>
-public class ActorStats : ICustomSerializable
+public class ActorStats
 {
     /// <summary>
     /// 血量条
@@ -33,26 +33,4 @@ public class ActorStats : ICustomSerializable
     /// 闪避值
     /// </summary>
     public int Agi { get; set; }
-
-    public void Serialize(CustomSerializeData data)
-    {
-        data.Add(Hp.ToString());
-        data.Add(San.ToString());
-        data.Add(Mp.ToString());
-        data.Add(Pt.ToString());
-        data.Add(Atk.ToString());
-        data.Add(Def.ToString());
-        data.Add(Agi.ToString());
-    }
-
-    public void Deserialize(CustomSerializeData data)
-    {
-        Hp = data.Get(0);
-        San = data.Get(0);
-        Mp = data.Get(0);
-        Pt = data.Get(0);
-        Atk = data.Get(0);
-        Def = data.Get(0);
-        Agi = data.Get(0);
-    }
 }

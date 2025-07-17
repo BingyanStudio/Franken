@@ -6,7 +6,7 @@ namespace Franken;
 /// <summary>
 /// 角色的身体组件
 /// </summary>
-public class ActorBodyPart : ICustomSerializable
+public class ActorBodyPart
 {
     public enum Quality
     {
@@ -57,23 +57,5 @@ public class ActorBodyPart : ICustomSerializable
     {
         if (Qual > Quality.White) Qual--;
         // TODO
-    }
-
-    public void Serialize(CustomSerializeData data)
-    {
-        data.Add(Name);
-        EnumUtil.SerializeToNum(Qual, data);
-        EnumUtil.SerializeToNum(Comp, data);
-        Skill.Serialize(data);
-        Stats.Serialize(data);
-    }
-
-    public void Deserialize(CustomSerializeData data)
-    {
-        Name = data.Get("default");
-        Qual = EnumUtil.DeserializeFromNum<Quality>(data);
-        Comp = EnumUtil.DeserializeFromNum<Component>(data);
-        Skill.Deserialize(data);
-        Stats.Deserialize(data);
     }
 }

@@ -1,12 +1,14 @@
 using System.Runtime.InteropServices;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Franken;
 
 /// <summary>
 /// 存取数据用的结构体
 /// </summary>
-[StructLayout(LayoutKind.Explicit)]
-public struct Number : ICustomSerializable
+[StructLayout(LayoutKind.Explicit), JsonConverter(typeof(NumberJsonConverter))]
+public readonly struct Number
 {
     public enum ValueType : uint
     {
@@ -15,13 +17,25 @@ public struct Number : ICustomSerializable
         Float,
     }
     [FieldOffset(0)]
-    private ValueType type;
+    private readonly ValueType type;
     public readonly ValueType Type => type;
 
     [FieldOffset(4)]
-    private int i;
+    private readonly int i;
     [FieldOffset(4)]
-    private float f;
+    private readonly float f;
+
+    public Number(string data) : this()
+    {
+        var raw = data[0] - '0';
+        type = (ValueType)raw;
+
+        switch (type)
+        {
+            case ValueType.Int: i = int.Parse(data[1..]); break;
+            case ValueType.Float: f = float.Parse(data[1..]); break;
+        }
+    }
 
     public Number(int i) : this()
     {
@@ -47,28 +61,16 @@ public struct Number : ICustomSerializable
         return u.f;
     }
 
-    public readonly void Serialize(CustomSerializeData data)
+    public override readonly string ToString() => ((int)type).ToString() + type switch
     {
-        data.Add(((int)type).ToString());
-        data.Add(
-            type switch
-            {
-                ValueType.Int => i.ToString(),
-                ValueType.Float => f.ToString(),
-                _ => string.Empty
-            }
-        );
-    }
+        ValueType.Int => i.ToString(),
+        ValueType.Float => f.ToString(),
+        _ => string.Empty
+    };
+}
 
-    public void Deserialize(CustomSerializeData data)
-    {
-        type = (ValueType)data.Get(0);
-
-        var value = data.Get(string.Empty);
-        switch (type)
-        {
-            case ValueType.Int: i = int.Parse(value); break;
-            case ValueType.Float: f = float.Parse(value); break;
-        }
-    }
+public class NumberJsonConverter : JsonConverter<Number>
+{
+    public override Number Read(ref Utf8JsonReader reader, System.Type typeToConvert, JsonSerializerOptions options) => new(reader.GetString());
+    public override void Write(Utf8JsonWriter writer, Number value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
 }

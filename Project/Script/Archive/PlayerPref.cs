@@ -1,50 +1,40 @@
 using Godot;
+using System.IO;
 
 namespace Franken;
 
-public class PlayerPref : ICustomSerializable
+/// <summary>
+/// 用户偏好，全局数据
+/// </summary>
+public class PlayerPref
 {
-    private static readonly string path = ProjectSettings.GlobalizePath("user://pref");
+    private static readonly string path = ProjectSettings.GlobalizePath("user://pref.json");
 
-    private static readonly PlayerPref instance = new();
+    public static PlayerPref Instance { get; private set; } = new();
 
-    private float musicVolume = .8f;
-    private float soundVolume = .8f;
-
-    public static float MusicVolume
-    {
-        get => instance.musicVolume;
-        set => instance.musicVolume = value;
-    }
-    public static float SoundVolume
-    {
-        get => instance.soundVolume;
-        set => instance.soundVolume = value;
-    }
-
-    public void Serialize(CustomSerializeData data)
-    {
-        data.Add(musicVolume.ToString());
-        data.Add(soundVolume.ToString());
-    }
-
-    public void Deserialize(CustomSerializeData data)
-    {
-        musicVolume = data.Get(.8f);
-        soundVolume = data.Get(.8f);
-    }
+    public float MusicVolume { get; set; } = .8f;
+    public float SoundVolume { get; set; } = .8f;
 
     public static void Save()
     {
+        ArchiveUtil.EnsureDirectory(path);
         LogTool.Message("Archive", $"正在保存用户偏好。路径：{path}");
-        ArchiveUtil.Save(path, instance);
+        File.WriteAllText(path, ArchiveUtil.Serialize(Instance));
         LogTool.Message("Archive", $"保存完毕。路径：{path}");
     }
 
     public static void Load()
     {
+        ArchiveUtil.EnsureDirectory(path);
+
+        if (!File.Exists(path))
+        {
+            LogTool.Warning("Archive", "暂无用户偏好！");
+            return;
+        }
+
         LogTool.Message("Archive", $"正在加载用户偏好。路径：{path}");
-        ArchiveUtil.Load(path, instance);
+        Instance = ArchiveUtil.Deserialize<PlayerPref>(path);
         LogTool.Message("Archive", $"加载完毕。路径：{path}");
     }
 }
