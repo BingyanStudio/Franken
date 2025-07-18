@@ -55,8 +55,6 @@ public class EnumDescriptionSourceGenerator : IIncrementalGenerator
         sb.AppendLine("        value switch");
         sb.AppendLine("        {");
 
-        int cnt = 0;
-
         foreach (var member in enumSymbol.GetMembers().Where(m => m.Kind == SymbolKind.Field))
         {
             var description = member.GetAttributes()
@@ -65,8 +63,6 @@ public class EnumDescriptionSourceGenerator : IIncrementalGenerator
                 ?? member.Name;
 
             sb.AppendLine($"            {enumName}.{member.Name} => \"{description}\",");
-
-            cnt++;
         }
         sb.AppendLine("            _ => string.Empty");
         sb.AppendLine("        };");
