@@ -40,7 +40,7 @@ internal static class SymbolExtensions
     }
 
     internal static T GetUnique<T>(this AttributeSyntax node) where T : ExpressionSyntax
-        => node.ArgumentList.Arguments.Select(a => a.Expression).OfType<T>().First();
+        => node.ArgumentList?.Arguments.Select(a => a.Expression).OfType<T>().FirstOrDefault();
 
     internal static string GetClass(this FieldDeclarationSyntax node)
         => (node.Parent as ClassDeclarationSyntax).Identifier.Text;

@@ -104,8 +104,6 @@ public static class {targetType}ExtensionsForTransition
                                               .OfType<FieldDeclarationSyntax>()
                                               .Where(n => n.HasAttribute("TransitionField")))
         {
-            if (field.GetClass() != className) continue;
-
             var fieldType = field.Declaration.Type;
             var fieldName = field.Declaration.Variables.First().Identifier.Text;
             var fieldNameNew = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
