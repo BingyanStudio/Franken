@@ -39,23 +39,7 @@ public class ActorBodyPart
 
     public string Name { get; private set; }
 
-    public Quality Qual { get; private set; }
+    public Component Comp => CSV.ActorBodyPart.Get(Name).Comp;
 
-    public Component Comp { get; private set; }
-
-    public ActorBodyPartSkill Skill { get; private set; } = new();
-
-    public ActorBodyPartStats Stats { get; private set; } = new();
-
-    public void Upgrade()
-    {
-        if (Qual < Quality.Purple) Qual++;
-        // TODO
-    }
-
-    public void Degrade()
-    {
-        if (Qual > Quality.White) Qual--;
-        // TODO
-    }
+    public ActorBodyPartStats Stats => ActorBodyPartStats.FromCSV(Name);
 }

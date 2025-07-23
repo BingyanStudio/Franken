@@ -24,7 +24,7 @@ public partial class UIManager : Singleton<UIManager>
     }
 
     private bool TryGetWindow<T>(out T window) where T : UIWindowBase => (window =
-        canvasNormal.GetCompInChildren<T>() ?? cacheRoot.GetCompInChildren<T>() ?? LoadWindow<T>()) != null;
+        canvasNormal.GetComponentInChildren<T>() ?? cacheRoot.GetComponentInChildren<T>() ?? LoadWindow<T>()) != null;
 
     public async void AcquireWindow<T>() where T : UIWindowBase
     {

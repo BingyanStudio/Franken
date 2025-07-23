@@ -1,6 +1,7 @@
 // 这份文件通过xlsx生成，请务必不要更改！！！！！
 
 using Godot;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Franken;
@@ -15,6 +16,10 @@ public partial class CSV
     public class ActorBodyPart
     {
         public static List<ActorBodyPart> Data { get; private set; }
+
+        private static Dictionary<string, ActorBodyPart> dict;
+        public static ActorBodyPart Get(string key) =>
+            dict.TryGetValue(key, out var value) ? value : null;
 
         private ActorBodyPart(string[] data)
         {
@@ -51,6 +56,7 @@ public partial class CSV
             Data = [];
             using var fa = FileAccess.Open("res://Assets/Config/CSV/ActorBodyPart.txt", FileAccess.ModeFlags.Read);
             while (!fa.EofReached()) Data.Add(new(fa.GetCsvLine("\t")));
+            dict = Data.ToDictionary(data => data.Name);
         }
     }
 
