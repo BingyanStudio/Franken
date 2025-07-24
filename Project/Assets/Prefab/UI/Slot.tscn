@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://st2j6h6nu6d8"]
 
-[ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="1_int1c"]
+[ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="1_iyqia"]
 
 [node name="Slot" type="PanelContainer"]
 offset_right = 64.0
@@ -8,5 +8,5 @@ offset_bottom = 64.0
 
 [node name="Img" type="TextureRect" parent="."]
 layout_mode = 2
-texture = ExtResource("1_int1c")
+texture = ExtResource("1_iyqia")
 expand_mode = 1

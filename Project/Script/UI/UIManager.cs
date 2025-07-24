@@ -1,19 +1,25 @@
 using Godot;
+using System;
+using System.Collections.Generic;
 
 namespace Franken;
 
 public partial class UIManager : Singleton<UIManager>
 {
-    private const string PATH = "res://Assets/Prefab/Window/";
+    private const string PATH = "res://Assets/Prefab/UI/Window/";
 
     [Export]
     private Control canvasNormal;
     [Export]
     private Control cacheRoot;
 
+    private readonly Dictionary<Type, UIWindowBase> activeWindows = [];
+    private readonly Dictionary<Type, UIWindowBase> cachedWindows = [];
+
     private static T LoadWindow<T>() where T : UIWindowBase
     {
-        var res = ResourceLoader.Load<PackedScene>(PATH + typeof(T).Name + ".tscn");
+        var name = typeof(T).Name;
+        var res = ResourceLoader.Load<PackedScene>($"{PATH}{name}/{name}.tscn");
         if (res == null) return null;
 
         var window = res.Instantiate<T>();
@@ -24,12 +30,15 @@ public partial class UIManager : Singleton<UIManager>
     }
 
     private bool TryGetWindow<T>(out T window) where T : UIWindowBase => (window =
-        canvasNormal.GetComponentInChildren<T>() ?? cacheRoot.GetComponentInChildren<T>() ?? LoadWindow<T>()) != null;
+        (activeWindows.Remove(typeof(T), out var active) ? active as T : null) ??
+        (cachedWindows.Remove(typeof(T), out var cached) ? cached as T : null) ??
+        LoadWindow<T>()) != null;
 
     public async void AcquireWindow<T>() where T : UIWindowBase
     {
         if (TryGetWindow(out T window))
         {
+            activeWindows.Add(typeof(T), window);
             canvasNormal.AddChild(window);
             await window.Show(true);
         }
@@ -41,6 +50,7 @@ public partial class UIManager : Singleton<UIManager>
         {
             await window.Hide(true);
             window.Reparent(cacheRoot);
+            cachedWindows.Add(typeof(T), window);
         }
     }
 
@@ -55,6 +65,12 @@ public partial class UIManager : Singleton<UIManager>
 
     public void PreloadWindow<T>() where T : UIWindowBase
     {
-        if (TryGetWindow(out T window)) cacheRoot.AddChild(window);
+        if (activeWindows.ContainsKey(typeof(T)) || cachedWindows.ContainsKey(typeof(T))) return;
+
+        if (!TryGetWindow(out T window))
+        {
+            cacheRoot.AddChild(window);
+            cachedWindows.Add(typeof(T), window);
+        }
     }
 }
