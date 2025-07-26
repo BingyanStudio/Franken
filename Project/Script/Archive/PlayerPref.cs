@@ -8,7 +8,7 @@ namespace Franken;
 /// </summary>
 public class PlayerPref
 {
-    private static readonly string path = ProjectSettings.GlobalizePath("user://pref.json");
+    private static readonly string path = Path.Combine(ArchiveUtil.Root, "pref.json");
 
     public static PlayerPref Instance { get; private set; } = new();
 

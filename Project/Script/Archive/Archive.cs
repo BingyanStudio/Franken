@@ -1,4 +1,3 @@
-using Godot;
 using System.IO;
 
 namespace Franken;
@@ -10,7 +9,7 @@ public static class Archive
 {
     public const int DATA_COUNT = 10;
 
-    private static readonly string root = ProjectSettings.GlobalizePath("user://data/");
+    public static readonly string root = Path.Combine(ArchiveUtil.Root, "data");
 
     public static UserData[] Data { get; private set; } = new UserData[DATA_COUNT];
 
@@ -55,5 +54,5 @@ public static class Archive
 
     public static void LoadAll() => Data.Traverse((idx, _) => Load(idx));
 
-    private static string FindPath(int idx) => root + idx.ToString() + ".json";
+    private static string FindPath(int idx) => Path.Combine(root, $"{idx}.json");
 }

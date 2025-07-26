@@ -1,3 +1,4 @@
+using Godot;
 using System.IO;
 using System.Text.Json;
 
@@ -5,6 +6,8 @@ namespace Franken;
 
 public static class ArchiveUtil
 {
+    public static string Root => Path.Combine(OS.GetExecutablePath(), "archive");
+
     private static readonly JsonSerializerOptions option = new() { WriteIndented = true };
 
     public static string Serialize<T>(T data) => JsonSerializer.Serialize(data, option);
