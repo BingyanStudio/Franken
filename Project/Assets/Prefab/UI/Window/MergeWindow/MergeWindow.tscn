@@ -1,20 +1,33 @@
-[gd_scene load_steps=11 format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=25 format=3 uid="uid://ebspk8418s36"]
 
 [ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/MergeWindow.cs" id="1_ghuo0"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_vjanc"]
+[ext_resource type="PackedScene" uid="uid://b2c0rd6h7k5mh" path="res://Assets/Prefab/UI/Window/MergeWindow/Widget/PartSlot.tscn" id="3_vjanc"]
 [ext_resource type="Texture2D" uid="uid://ddil1m36xh012" path="res://Assets/Art/Texture/UI/bg_1.png" id="3_wc31x"]
+[ext_resource type="Shortcut" uid="uid://bxj571eqc1j6u" path="res://Assets/Config/Input/prev.tres" id="5_egti7"]
+[ext_resource type="Texture2D" uid="uid://cl61wmentgevj" path="res://Assets/Art/Texture/UI/prev_normal.png" id="5_iha1v"]
+[ext_resource type="Texture2D" uid="uid://5y51o5i61qu" path="res://Assets/Art/Texture/UI/next_normal.png" id="6_qkr73"]
+[ext_resource type="Texture2D" uid="uid://w48qg7l6q5gb" path="res://Assets/Art/Texture/UI/prev_pressed.png" id="6_xscx7"]
+[ext_resource type="Texture2D" uid="uid://d2ercjjrn4rqq" path="res://Assets/Art/Texture/UI/exit_normal.png" id="7_jvbkb"]
+[ext_resource type="Texture2D" uid="uid://bwakuthybtm6s" path="res://Assets/Art/Texture/UI/prev_hover.png" id="7_p7xoj"]
+[ext_resource type="Texture2D" uid="uid://jg0tliyu4y33" path="res://Assets/Art/Texture/UI/exit_pressed.png" id="8_i5ag5"]
+[ext_resource type="Texture2D" uid="uid://dqcdo085pqdxi" path="res://Assets/Art/Texture/UI/next_pressed.png" id="9_cl2e7"]
+[ext_resource type="Shortcut" uid="uid://1rr0qfvgp2il" path="res://Assets/Config/Input/next.tres" id="9_wrpox"]
+[ext_resource type="Texture2D" uid="uid://wvc6kft5f7dd" path="res://Assets/Art/Texture/UI/exit_hover.png" id="9_xscx7"]
+[ext_resource type="Texture2D" uid="uid://rnul0d0llgbk" path="res://Assets/Art/Texture/UI/next_hover.png" id="10_t54kn"]
+[ext_resource type="Texture2D" uid="uid://em524xgn6nds" path="res://Assets/Art/Texture/UI/slot_normal.png" id="14_t54kn"]
+[ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="15_c1nnl"]
+[ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="16_egti7"]
 
-[sub_resource type="Animation" id="Animation_tt1g2"]
-resource_name = "hide"
+[sub_resource type="LabelSettings" id="LabelSettings_p7xoj"]
+font_size = 48
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Animation" id="Animation_aa146"]
-resource_name = "show"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_v0b5x"]
-_data = {
-&"hide": SubResource("Animation_tt1g2"),
-&"show": SubResource("Animation_aa146")
-}
+[sub_resource type="LabelSettings" id="LabelSettings_egti7"]
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_aa146"]
 font_size = 48
@@ -46,9 +59,15 @@ grow_vertical = 2
 script = ExtResource("1_ghuo0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_v0b5x")
-}
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -57,22 +76,299 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="EditPanel" type="Control" parent="HBoxContainer"]
-clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="EditBg" type="TextureRect" parent="HBoxContainer/EditPanel"]
-layout_mode = 0
-offset_right = 2048.0
-offset_bottom = 2048.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_vjanc")
+
+[node name="PartSlots" type="Control" parent="HBoxContainer/EditPanel/EditBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Head" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_top = 0.25
+anchor_bottom = 0.25
+focus_neighbor_left = NodePath("../UpperLeft")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../UpperRight")
+focus_neighbor_bottom = NodePath("../Heart")
+
+[node name="Heart" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_left = 0.55
+anchor_top = 0.4
+anchor_right = 0.55
+anchor_bottom = 0.4
+focus_neighbor_left = NodePath("../UpperLeft")
+focus_neighbor_top = NodePath("../Head")
+focus_neighbor_right = NodePath("../UpperRight")
+focus_neighbor_bottom = NodePath("../Torso")
+
+[node name="Torso" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+focus_neighbor_left = NodePath("../UpperLeft")
+focus_neighbor_top = NodePath("../Heart")
+focus_neighbor_right = NodePath("../UpperRight")
+focus_neighbor_bottom = NodePath("../LowerLeft")
+
+[node name="UpperLeft" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_left = 0.3
+anchor_top = 0.45
+anchor_right = 0.3
+anchor_bottom = 0.45
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Head")
+focus_neighbor_right = NodePath("../Torso")
+focus_neighbor_bottom = NodePath("../LowerLeft")
+
+[node name="UpperRight" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_left = 0.7
+anchor_top = 0.45
+anchor_right = 0.7
+anchor_bottom = 0.45
+focus_neighbor_left = NodePath("../Heart")
+focus_neighbor_top = NodePath("../Head")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../LowerRight")
+
+[node name="LowerLeft" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_left = 0.4
+anchor_top = 0.7
+anchor_right = 0.4
+anchor_bottom = 0.7
+focus_neighbor_left = NodePath("../UpperLeft")
+focus_neighbor_top = NodePath("../Torso")
+focus_neighbor_right = NodePath("../LowerRight")
+focus_neighbor_bottom = NodePath(".")
+
+[node name="LowerRight" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
+layout_mode = 1
+anchor_left = 0.6
+anchor_top = 0.7
+anchor_right = 0.6
+anchor_bottom = 0.7
+focus_neighbor_left = NodePath("../LowerLeft")
+focus_neighbor_top = NodePath("../Torso")
+focus_neighbor_right = NodePath("../UpperRight")
+focus_neighbor_bottom = NodePath(".")
+
+[node name="EditCenter" type="Control" parent="HBoxContainer/EditPanel"]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel"]
+custom_minimum_size = Vector2(112, 64)
+layout_mode = 0
+offset_right = 112.0
+offset_bottom = 64.0
+texture_normal = ExtResource("7_jvbkb")
+texture_pressed = ExtResource("8_i5ag5")
+texture_hover = ExtResource("9_xscx7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TopBar" type="Control" parent="HBoxContainer/EditPanel"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.1
+offset_top = -108.0
+offset_bottom = -108.0
+grow_horizontal = 2
+
+[node name="TopBarBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wc31x")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/EditPanel/TopBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Prev" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+shortcut = ExtResource("5_egti7")
+texture_normal = ExtResource("5_iha1v")
+texture_pressed = ExtResource("6_xscx7")
+texture_hover = ExtResource("7_p7xoj")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Part" type="Label" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(144, 72)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.0
+text = "部位"
+label_settings = SubResource("LabelSettings_p7xoj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Next" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+shortcut = ExtResource("9_wrpox")
+texture_normal = ExtResource("6_qkr73")
+texture_pressed = ExtResource("9_cl2e7")
+texture_hover = ExtResource("10_t54kn")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TopBarExitButton" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar"]
+custom_minimum_size = Vector2(84, 48)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -24.0
+offset_right = 108.0
+offset_bottom = 24.0
+grow_vertical = 2
+texture_normal = ExtResource("7_jvbkb")
+texture_pressed = ExtResource("8_i5ag5")
+texture_hover = ExtResource("9_xscx7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Bag" type="Control" parent="HBoxContainer/EditPanel"]
+layout_mode = 1
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 756.0
+offset_bottom = 756.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BagBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/Bag"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wc31x")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/Bag"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer"]
+layout_mode = 2
+
+[node name="BagSlots" type="HFlowContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="BagSlot" type="TextureButton" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+texture_normal = ExtResource("14_t54kn")
+texture_pressed = ExtResource("15_c1nnl")
+texture_hover = ExtResource("16_egti7")
+texture_focused = ExtResource("16_egti7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Img" type="TextureRect" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_vjanc")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "名称"
+label_settings = SubResource("LabelSettings_egti7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BgBtn" type="Button" parent="HBoxContainer/EditPanel"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.3
+offset_right = 8.0
+offset_bottom = 8.0
 
 [node name="ViewPanel" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="StatsPanel" type="Control" parent="HBoxContainer/ViewPanel"]
 layout_mode = 2
@@ -220,7 +516,7 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills/VBoxContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
-text = "111"
+text = "原神：空月之歌"
 label_settings = SubResource("LabelSettings_kt511")
 autowrap_mode = 1
 
@@ -240,6 +536,6 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills/VBoxContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
-text = "111"
+text = "崩坏：星穹铁道"
 label_settings = SubResource("LabelSettings_kt511")
 autowrap_mode = 1

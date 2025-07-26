@@ -18,8 +18,6 @@ public static class LogTool
 
     public static void Message(string group, string message) => GD.Print(Wrap(group) + message);
 
-    public static void Raw(string message) => GD.PrintRaw(message);
-
     public static void Rich(string message) => GD.PrintRich(message);
 
 }

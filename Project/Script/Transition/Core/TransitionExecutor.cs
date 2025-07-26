@@ -6,7 +6,7 @@ namespace Franken;
 
 public partial class TransitionExecutor : Node
 {
-    static TransitionExecutor() => (Engine.GetMainLoop() as SceneTree).Root.GetChild(0).AddChild(new TransitionExecutor());
+    static TransitionExecutor() => NodeUtil.Root.AddChild(new TransitionExecutor());
 
     private readonly static List<Transition> anims = [];
     private readonly static Stack<Transition> disabled = new(), enabling = new();

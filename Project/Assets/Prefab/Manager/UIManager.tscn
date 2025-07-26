@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dbxw3f7jgmjeb" path="res://Script/UI/UIManager.cs" id="1_7d480"]
 
-[node name="UiManager" type="Control" node_paths=PackedStringArray("canvasNormal", "cacheRoot")]
+[node name="UIManager" type="Control" node_paths=PackedStringArray("canvasNormal", "cacheRoot")]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 15

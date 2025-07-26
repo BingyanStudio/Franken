@@ -1,0 +1,7 @@
+[gd_resource type="Shortcut" load_steps=2 format=3 uid="uid://bxj571eqc1j6u"]
+
+[sub_resource type="InputEventJoypadButton" id="InputEventJoypadButton_4xmc5"]
+button_index = 9
+
+[resource]
+events = [SubResource("InputEventJoypadButton_4xmc5")]

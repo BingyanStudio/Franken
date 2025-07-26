@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2c0rd6h7k5mh"]
+
+[ext_resource type="Texture2D" uid="uid://em524xgn6nds" path="res://Assets/Art/Texture/UI/slot_normal.png" id="1_alor8"]
+[ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="2_s70s8"]
+[ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="2_spy2o"]
+[ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="3_i6geq"]
+
+[node name="PartSlot" type="Control"]
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="TextureButton" parent="."]
+layout_mode = 1
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+pivot_offset = Vector2(48, 48)
+texture_normal = ExtResource("1_alor8")
+texture_pressed = ExtResource("2_s70s8")
+texture_hover = ExtResource("2_spy2o")
+texture_focused = ExtResource("2_spy2o")
+
+[node name="MarginContainer" type="MarginContainer" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Content" type="TextureRect" parent="Button/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_i6geq")
+expand_mode = 1
