@@ -14,7 +14,7 @@ public abstract partial class UIWindowBase : Control
 
     private AnimationPlayer animPlayer;
 
-    public void Setup()
+    public virtual void Setup()
     {
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
