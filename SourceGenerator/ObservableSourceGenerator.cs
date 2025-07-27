@@ -67,8 +67,8 @@ public partial class {className}
             var validate = field.GetAttribute("ObservableProperty").GetUnique<LiteralExpressionSyntax>()?.Token.ValueText ?? string.Empty;
 
             sb.Append($@"
-    /// <summary>On{fieldNameNew}Change({fieldType} oldValue, {fieldType} newValue)</summary>
-    public Action<{fieldType}, {fieldType}> On{fieldNameNew}Change;
+    /// <summary>On{fieldNameNew}Changed({fieldType} oldValue, {fieldType} newValue)</summary>
+    public Action<{fieldType}, {fieldType}> On{fieldNameNew}Changed;
     public {fieldType} {fieldNameNew}
     {{
         get => {fieldName};
@@ -77,8 +77,9 @@ public partial class {className}
             if (!string.IsNullOrEmpty(validate)) sb.Append($@"
             if (!{validate}(value)) return;");
             sb.Append($@"
-            On{fieldNameNew}Change?.Invoke({fieldName}, value);
+            if ({fieldName} == value) return;
             {fieldName} = value;
+            On{fieldNameNew}Changed?.Invoke({fieldName}, value);
         }}
     }}
                     ");

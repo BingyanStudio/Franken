@@ -21,6 +21,7 @@ public class ActorBodyPart
     [Flags]
     public enum Component
     {
+        [Description("")]
         None = 0,
         [Description("头部")]
         Head = 1,
@@ -28,6 +29,7 @@ public class ActorBodyPart
         Heart = 1 << 1,
         [Description("躯干")]
         Torso = 1 << 2,
+        [Description("四肢")]
         Limb = 1 << 3,
         Upper = 1 << 4,
         Lower = 1 << 5,

@@ -9,7 +9,7 @@ public partial class TransitionExecutor : Node
     static TransitionExecutor() => NodeUtil.Root.AddChild(new TransitionExecutor());
 
     private readonly static List<Transition> anims = [];
-    private readonly static Stack<Transition> disabled = new(), enabling = new();
+    private readonly static Stack<Transition> disabled = [], enabling = [];
 
     public static void Register(Transition anim) => enabling.Push(anim);
     public static void Unregister(Transition anim) => disabled.Push(anim);

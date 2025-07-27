@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=30 format=3 uid="uid://ebspk8418s36"]
 
 [ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/MergeWindow.cs" id="1_ghuo0"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_vjanc"]
@@ -18,6 +18,100 @@
 [ext_resource type="Texture2D" uid="uid://em524xgn6nds" path="res://Assets/Art/Texture/UI/slot_normal.png" id="14_t54kn"]
 [ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="15_c1nnl"]
 [ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="16_egti7"]
+
+[sub_resource type="Animation" id="Animation_egti7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-108.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bag:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1080.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wrpox"]
+_data = {
+&"RESET": SubResource("Animation_egti7")
+}
+
+[sub_resource type="Animation" id="Animation_wxdll"]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [0.0, -108.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bag:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [324.0, 1080.0]
+}
+
+[sub_resource type="Animation" id="Animation_xg5mm"]
+resource_name = "Show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [-108.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Bag:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [1080.0, 324.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ob28"]
+_data = {
+&"Hide": SubResource("Animation_wxdll"),
+&"Show": SubResource("Animation_xg5mm")
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_p7xoj"]
 font_size = 48
@@ -83,6 +177,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
+[node name="EditAnim" type="AnimationPlayer" parent="HBoxContainer/EditPanel"]
+libraries = {
+&"": SubResource("AnimationLibrary_wrpox"),
+&"MergeWindow_EditPanel": SubResource("AnimationLibrary_8ob28")
+}
+
 [node name="EditBg" type="TextureRect" parent="HBoxContainer/EditPanel"]
 layout_mode = 1
 anchors_preset = 15
@@ -108,6 +208,7 @@ focus_neighbor_left = NodePath("../UpperLeft")
 focus_neighbor_top = NodePath(".")
 focus_neighbor_right = NodePath("../UpperRight")
 focus_neighbor_bottom = NodePath("../Heart")
+metadata/Component = "Head"
 
 [node name="Heart" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -119,6 +220,7 @@ focus_neighbor_left = NodePath("../UpperLeft")
 focus_neighbor_top = NodePath("../Head")
 focus_neighbor_right = NodePath("../UpperRight")
 focus_neighbor_bottom = NodePath("../Torso")
+metadata/Component = "Heart"
 
 [node name="Torso" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -129,6 +231,7 @@ focus_neighbor_left = NodePath("../UpperLeft")
 focus_neighbor_top = NodePath("../Heart")
 focus_neighbor_right = NodePath("../UpperRight")
 focus_neighbor_bottom = NodePath("../LowerLeft")
+metadata/Component = "Torso"
 
 [node name="UpperLeft" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -140,6 +243,7 @@ focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../Head")
 focus_neighbor_right = NodePath("../Torso")
 focus_neighbor_bottom = NodePath("../LowerLeft")
+metadata/Component = "Limb"
 
 [node name="UpperRight" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -151,6 +255,7 @@ focus_neighbor_left = NodePath("../Heart")
 focus_neighbor_top = NodePath("../Head")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../LowerRight")
+metadata/Component = "Limb"
 
 [node name="LowerLeft" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -162,6 +267,7 @@ focus_neighbor_left = NodePath("../UpperLeft")
 focus_neighbor_top = NodePath("../Torso")
 focus_neighbor_right = NodePath("../LowerRight")
 focus_neighbor_bottom = NodePath(".")
+metadata/Component = "Limb"
 
 [node name="LowerRight" parent="HBoxContainer/EditPanel/EditBg/PartSlots" instance=ExtResource("3_vjanc")]
 layout_mode = 1
@@ -173,6 +279,7 @@ focus_neighbor_left = NodePath("../LowerLeft")
 focus_neighbor_top = NodePath("../Torso")
 focus_neighbor_right = NodePath("../UpperRight")
 focus_neighbor_bottom = NodePath(".")
+metadata/Component = "Limb"
 
 [node name="EditCenter" type="Control" parent="HBoxContainer/EditPanel"]
 layout_mode = 1
@@ -257,7 +364,7 @@ texture_hover = ExtResource("10_t54kn")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="TopBarExitButton" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar"]
+[node name="TopBarExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar"]
 custom_minimum_size = Vector2(84, 48)
 layout_mode = 1
 anchors_preset = 4
