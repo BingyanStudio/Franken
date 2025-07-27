@@ -20,6 +20,8 @@ public readonly struct Number
     private readonly ValueType type;
     public readonly ValueType Type => type;
 
+    private const char separator = '|';
+
     [FieldOffset(4)]
     private readonly int i;
     [FieldOffset(4)]
@@ -32,8 +34,8 @@ public readonly struct Number
 
         switch (type)
         {
-            case ValueType.Int: i = int.Parse(data[1..]); break;
-            case ValueType.Float: f = float.Parse(data[1..]); break;
+            case ValueType.Int: i = int.Parse(data[2..]); break;
+            case ValueType.Float: f = float.Parse(data[2..]); break;
         }
     }
 
@@ -61,7 +63,7 @@ public readonly struct Number
         return u.f;
     }
 
-    public override readonly string ToString() => ((int)type).ToString() + type switch
+    public override readonly string ToString() => ((int)type).ToString() + separator + type switch
     {
         ValueType.Int => i.ToString(),
         ValueType.Float => f.ToString(),
