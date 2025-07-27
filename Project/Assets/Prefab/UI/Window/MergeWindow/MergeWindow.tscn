@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=31 format=3 uid="uid://ebspk8418s36"]
 
 [ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/MergeWindow.cs" id="1_ghuo0"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_vjanc"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://em524xgn6nds" path="res://Assets/Art/Texture/UI/slot_normal.png" id="14_t54kn"]
 [ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="15_c1nnl"]
 [ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="16_egti7"]
+[ext_resource type="Shortcut" uid="uid://brc0cserqskst" path="res://Assets/Config/Input/exit.tres" id="16_wrpox"]
 
 [sub_resource type="Animation" id="Animation_egti7"]
 length = 0.001
@@ -375,6 +376,7 @@ offset_top = -24.0
 offset_right = 108.0
 offset_bottom = 24.0
 grow_vertical = 2
+shortcut = ExtResource("16_wrpox")
 texture_normal = ExtResource("7_jvbkb")
 texture_pressed = ExtResource("8_i5ag5")
 texture_hover = ExtResource("9_xscx7")

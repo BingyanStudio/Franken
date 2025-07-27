@@ -44,7 +44,6 @@ public partial class MergeWindow : UIWindowBase
     {
         OnCurrentCompSlotIdxChanged += (oldValue, newValue) =>
         {
-            part.Text = CurrentComp.GetDescription();
 
             if (oldValue < 0)
             {
@@ -57,6 +56,7 @@ public partial class MergeWindow : UIWindowBase
                 editAnim.PlayAnim("Hide");
                 bgBtn.Visible = false;
             }
+            else part.Text = CurrentComp.GetDescription();
         };
 
         void UnselectComp() => CurrentCompSlotIdx = -1;

@@ -78,8 +78,9 @@ public partial class {className}
             if (!{validate}(value)) return;");
             sb.Append($@"
             if ({fieldName} == value) return;
+            var temp = {fieldName};
             {fieldName} = value;
-            On{fieldNameNew}Changed?.Invoke({fieldName}, value);
+            On{fieldNameNew}Changed?.Invoke(temp, value);
         }}
     }}
                     ");
