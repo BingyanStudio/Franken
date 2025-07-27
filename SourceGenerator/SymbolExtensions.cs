@@ -8,6 +8,17 @@ namespace Franken.SourceGenerator;
 
 internal static class SymbolExtensions
 {
+    internal static bool InheritsFrom(this INamedTypeSymbol symbol, string name)
+    {
+        if (symbol != null) symbol = symbol.BaseType;
+        while (symbol != null)
+        {
+            if (symbol.Name == name) return true;
+            symbol = symbol.BaseType;
+        }
+        return false;
+    }
+
     internal static bool DirectlyInheritsFrom(this ClassDeclarationSyntax node, string name)
         => node.BaseList != null && node.BaseList.Types.Any(t => t.ToString() == name);
 

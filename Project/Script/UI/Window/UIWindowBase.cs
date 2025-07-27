@@ -17,6 +17,7 @@ public abstract partial class UIWindowBase : Control
     public virtual void Setup()
     {
         animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        GetRef();
     }
 
     public async Task Show(bool playAnim)
@@ -33,6 +34,8 @@ public abstract partial class UIWindowBase : Control
 
     protected virtual void Init() => OnInit?.Invoke();
     protected virtual void Uninit() => OnUninit?.Invoke();
+
+    protected virtual void GetRef() { }
 
     private async Task PlayAnim(string anim)
     {

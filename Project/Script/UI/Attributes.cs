@@ -2,6 +2,19 @@ using System;
 
 namespace Franken;
 
+/// <summary>
+/// 通过形如
+/// <code>
+/// [UIRef]
+/// private GameObject itsMyGO = 0;
+/// </code>
+/// 的代码，在<see cref="UIWindowBase.GetRef"/>中生成
+/// <code>itsMyGO = children["ItsMyGO"].First() as GameObject;</code>
+/// 由于严格通过名称索引，请务必保证名称唯一且正确！！！！！
+/// </summary>
+[AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
+public class UIRefAttribute : Attribute { }
+
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public class ObservableObjectAttribute : Attribute { }
 
