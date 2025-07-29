@@ -26,8 +26,14 @@ public partial class MergeWindow : UIWindowBase
     [UIRef]
     private BaseButton next;
 
-    [ObservableProperty]
+    [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
+
+    private bool zooming = false;
+    [Export]
+    private float zoomTime = .5f;
+    [Export]
+    private float zoomScale = 1.5f;
 
     private readonly List<ActorBodyPart.Component> compList = [];
     private ActorBodyPart.Component CurrentComp =>
@@ -37,11 +43,19 @@ public partial class MergeWindow : UIWindowBase
     {
         OnCurrentCompSlotIdxChanged += (oldValue, newValue) =>
         {
+            zooming = true;
+            var zoomTarget = editCenter;
+            var zoom = new ControlTransition(editBg);
 
             if (oldValue < 0)
             {
                 editAnim.PlayAnim("Show");
                 bgBtn.Visible = true;
+
+                zoom.ToScale(Vector2.One * zoomScale);
+            }
+            else
+            {
             }
 
             if (newValue < 0)
@@ -49,9 +63,23 @@ public partial class MergeWindow : UIWindowBase
                 editAnim.PlayAnim("Hide");
                 bgBtn.Visible = false;
 
+                zoom.ToScale(Vector2.One);
+
                 RefreshEditSlotFocus(oldValue);
             }
-            else part.Text = CurrentComp.GetDescription();
+            else
+            {
+                zoomTarget = partSlots.GetChild<Control>(newValue);
+                part.Text = CurrentComp.GetDescription();
+            }
+
+            zoom.ToPos(editCenter.Position - zoomTarget.Position)
+                .ToPivotOffset(zoomTarget.Position);
+
+            Flow.Create()
+                .Delay(zoom.During(zoomTime).Easing(Transition.OutCubic))
+                .Then(() => zooming = false)
+                .Run();
         };
 
         void UnselectComp() => CurrentCompSlotIdx = -1;
@@ -99,7 +127,10 @@ public partial class MergeWindow : UIWindowBase
         base.Init();
         currentCompSlotIdx = -1;
         RefreshEditSlotFocus(0);
+        zooming = false;
     }
 
     private void RefreshEditSlotFocus(int idx) => partSlots.GetChild(idx).GetNode<BaseButton>("Button").GrabFocus();
+
+    private bool CanZoom(int value) => !zooming;
 }
