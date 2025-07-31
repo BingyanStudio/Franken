@@ -11,7 +11,7 @@ public static class MergeUtil
         ActorBodyPart.Component.Torso |
         ActorBodyPart.Component.Limb;
 
-    public static bool CanMerge(IEnumerable<ActorBodyPart> parts)
+    public static bool CanMerge(IEnumerable<CSV.ActorBodyPart> parts)
     {
         ActorBodyPart.Component comps = ActorBodyPart.Component.None;
         parts.ForEach(part => comps |= part.Comp);
@@ -22,9 +22,9 @@ public static class MergeUtil
     /// 将<see cref="ActorBodyPart"/>融合成<see cref="ActorBody"/>
     /// <br/>融合前记得判断<see cref="CanMerge(IEnumerable{ActorBodyPart})"/>
     /// </summary>
-    public static ActorBody Merge(IEnumerable<ActorBodyPart> parts) => new()
+    public static ActorBody Merge(IEnumerable<CSV.ActorBodyPart> parts) => new()
     {
-        Stats = CalculateStats(parts.Select(part => part.Stats)),
+        Stats = CalculateStats(parts.Select(part => ActorBodyPartStats.FromCSV(part.Name))),
         Parts = parts.ToArray()
     };
 

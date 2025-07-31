@@ -38,10 +38,4 @@ public class ActorBodyPart
         [Description("下肢")]
         LowerLimb = Lower | UpperLimb,
     }
-
-    public string Name { get; private set; }
-
-    public Component Comp => CSV.ActorBodyPart.Get(Name).Comp;
-
-    public ActorBodyPartStats Stats => ActorBodyPartStats.FromCSV(Name);
 }

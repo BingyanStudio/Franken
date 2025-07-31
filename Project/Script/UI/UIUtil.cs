@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 namespace Franken;
 
@@ -19,14 +20,25 @@ public static class UIUtil
     public static void ReserveChildren(this Control root, int count, Action<int, Control> action)
     {
         if (root.GetChild<Control>(0) is not Control child) return;
-        child.Visible = false;
+        var children = root.GetChildren().OfType<Control>().ToList();
+
+        if (count < children.Count)
+            for (int i = count; i < children.Count; i++)
+                children[i].Visible = false;
+
+        if (count > children.Count)
+            for (int i = children.Count; i < count; i++)
+            {
+                var copy = child.Duplicate() as Control;
+                root.AddChild(copy);
+                children.Add(copy);
+            }
 
         for (var i = 0; i < count; i++)
         {
-            var copy = child.Duplicate() as Control;
-            copy.Visible = true;
-            action?.Invoke(i, copy);
-            root.AddChild(copy);
+            var target = children[i];
+            target.Visible = true;
+            action?.Invoke(i, target);
         }
     }
 }

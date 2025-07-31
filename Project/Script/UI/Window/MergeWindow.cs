@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Franken;
 
@@ -25,9 +27,12 @@ public partial class MergeWindow : UIWindowBase
     private BaseButton prev;
     [UIRef]
     private BaseButton next;
+    [UIRef]
+    private Control bagSlots;
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
+    private ObservableCollection<CSV.ActorBodyPart> currentParts = [];
 
     private bool zooming = false;
     [Export]
@@ -38,6 +43,11 @@ public partial class MergeWindow : UIWindowBase
     private readonly List<ActorBodyPart.Component> compList = [];
     private ActorBodyPart.Component CurrentComp =>
         CurrentCompSlotIdx < 0 ? ActorBodyPart.Component.None : compList[CurrentCompSlotIdx];
+
+    private CSV.ActorBodyPart[] editCache = new CSV.ActorBodyPart[7];
+
+    /// <summary>临时数据源</summary>
+    public List<CSV.ActorBodyPart> Parts { get; private set; } = [];
 
     private void Bind()
     {
@@ -71,6 +81,8 @@ public partial class MergeWindow : UIWindowBase
             {
                 zoomTarget = partSlots.GetChild<Control>(newValue);
                 part.Text = CurrentComp.GetDescription();
+
+                InitBag(CurrentComp, Parts);
             }
 
             zoom.ToPos(editCenter.Position - zoomTarget.Position)
@@ -98,6 +110,13 @@ public partial class MergeWindow : UIWindowBase
 
         Setup();
         Init();
+
+        // 临时背包数据
+        CSV.LoadAll();
+        CSV.ActorBodyPart.Data.ForEach(data =>
+        {
+            for (int i = 0; i < 114; i++) Parts.Add(data);
+        });
     }
 
     public override void Setup()
@@ -125,7 +144,15 @@ public partial class MergeWindow : UIWindowBase
     protected override void Init()
     {
         base.Init();
-        currentCompSlotIdx = -1;
+
+        CurrentCompSlotIdx = -1;
+        editCache = new CSV.ActorBodyPart[7];
+        currentParts = [];
+        currentParts.CollectionChanged += (sender, args) =>
+        {
+
+        };
+
         RefreshEditSlotFocus(0);
         zooming = false;
     }
@@ -133,4 +160,30 @@ public partial class MergeWindow : UIWindowBase
     private void RefreshEditSlotFocus(int idx) => partSlots.GetChild(idx).GetNode<BaseButton>("Button").GrabFocus();
 
     private bool CanZoom(int value) => !zooming;
+
+    private void InitBag(ActorBodyPart.Component comp, IEnumerable<CSV.ActorBodyPart> data)
+    {
+        var targetComps = data.Where(d => d.Comp.HasFlag(comp)).ToArray();
+        bagSlots.ReserveChildren(targetComps.Length, (idx, slot) =>
+        {
+            if (slot is not BaseButton btn) return;
+
+            var children = slot.GetAllChildren().ToDictionary(child => child.Name);
+            var img = children["Img"] as TextureRect;
+            var name = children["Name"] as Label;
+
+            var target = targetComps[idx];
+
+            // TODO: 图片
+            name.Text = target.Name;
+            btn.Pressed += () =>
+            {
+                var cache = editCache[CurrentCompSlotIdx];
+                if (cache == target) return;
+
+                if (cache != null) currentParts.Remove(cache);
+                currentParts.Add(editCache[CurrentCompSlotIdx] = target);
+            };
+        });
+    }
 }

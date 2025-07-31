@@ -7,11 +7,11 @@ public class ActorBody
 {
     public ActorStats Stats { get; set; }
 
-    public ActorBodyPart[] Parts { get; set; }
+    public CSV.ActorBodyPart[] Parts { get; set; }
 
     // 感觉这里性能并不吃紧，所以直接查好了
-    public ActorBodyPart Head => Parts.First(part => part.Comp == ActorBodyPart.Component.Head);
-    public ActorBodyPart Heart => Parts.First(part => part.Comp == ActorBodyPart.Component.Heart);
-    public ActorBodyPart Torso => Parts.First(part => part.Comp == ActorBodyPart.Component.Torso);
-    public IEnumerable<ActorBodyPart> Limbs => Parts.Where(part => part.Comp == ActorBodyPart.Component.Limb);
+    public CSV.ActorBodyPart Head => Parts.First(part => part.Comp == ActorBodyPart.Component.Head);
+    public CSV.ActorBodyPart Heart => Parts.First(part => part.Comp == ActorBodyPart.Component.Heart);
+    public CSV.ActorBodyPart Torso => Parts.First(part => part.Comp == ActorBodyPart.Component.Torso);
+    public IEnumerable<CSV.ActorBodyPart> Limbs => Parts.Where(part => part.Comp == ActorBodyPart.Component.Limb);
 }
