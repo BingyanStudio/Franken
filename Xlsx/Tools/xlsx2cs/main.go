@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 
 	"github.com/xuri/excelize/v2"
@@ -87,9 +88,10 @@ func processXlsx(path string) Xlsx {
 }
 
 func main() {
-	csvTpl, err := template.ParseFiles(tpl)
+	csvTpl, err := template.New("").Funcs(template.FuncMap{"HasPrefix": strings.HasPrefix}).ParseFiles(tpl)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+		return
 	}
 
 	fmt.Println("开始生成代码！")
@@ -126,7 +128,7 @@ func main() {
 	defer file.Close()
 
 	fmt.Println("开始生成" + csvPath)
-	err = csvTpl.Execute(file, xlsxs)
+	err = csvTpl.ExecuteTemplate(file, tpl, xlsxs)
 	if err != nil {
 		fmt.Println(err)
 		return

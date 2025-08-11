@@ -16,7 +16,7 @@ public partial class CSV
     }
     {{- println}}
     {{- range .}}
-    public class {{.Name}}
+    public partial class {{.Name}}
     {
         public static List<{{.Name}}> Data { get; private set; }
 
@@ -33,6 +33,8 @@ public partial class CSV
             {{$field.Identifier}} = Util.GetInt(data[{{$index}}]);
             {{- else if eq $field.Type "float"}}
             {{$field.Identifier}} = Util.GetInt(data[{{$index}}]);
+            {{- else if HasPrefix $field.Type "List"}}
+            {{$field.Identifier}} = Util.Get{{$field.Type}}(data[{{$index}}]);
             {{- else}}
             {{$field.Identifier}} = Util.GetEnum<{{$field.Type}}>(data[{{$index}}]);
             {{- end}}
@@ -48,7 +50,11 @@ public partial class CSV
             if (Data != null) return;
             Data = [];
             using var fa = FileAccess.Open("{{.Path}}", FileAccess.ModeFlags.Read);
-            while (!fa.EofReached()) Data.Add(new(fa.GetCsvLine("\t")));
+            while (!fa.EofReached()) {
+                var tokens = fa.GetCsvLine("\t");
+                if (tokens.Length == 1) continue;
+                Data.Add(new(tokens));
+            }
             dict = Data.ToDictionary(data => data.{{- range .Fields}}{{.Identifier}}{{- break}}{{- end}});
         }
     }
