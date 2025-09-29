@@ -69,6 +69,7 @@ public static class MergeUtil
 
         return new()
         {
+            MaxHp = (int)(addHp * (mulHp + 1)),
             Hp = (int)(addHp * (mulHp + 1)),
             San = (int)(addSan * (mulSan + 1)),
             Cmp = (int)(addCmp * (mulCmp + 1)),

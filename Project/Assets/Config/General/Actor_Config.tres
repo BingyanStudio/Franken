@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ActorConfig" load_steps=2 format=3 uid="uid://cyeag0ha8vbir"]
+
+[ext_resource type="Script" uid="uid://cravbdeuthgo0" path="res://Script/Gameplay/Actor/ActorConfig.cs" id="1_hkf1y"]
+
+[resource]
+script = ExtResource("1_hkf1y")
+MinSan = 0
+MaxSan = 100
+MinCmp = -100
+MaxCmp = 100
+MinDef = -20
+MaxDef = 80
+MinPt = 0
+MaxPt = 12
+MinAgi = 1
+MaxAgi = 50
+metadata/_custom_type_script = "uid://cravbdeuthgo0"
