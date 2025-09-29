@@ -14,9 +14,9 @@ public class ActorStats
     /// </summary>
     public int San { get; set; }
     /// <summary>
-    /// 能量条
+    /// 完整度
     /// </summary>
-    public int Mp { get; set; }
+    public int Cmp { get; set; }
     /// <summary>
     /// 行动点
     /// </summary>
@@ -33,4 +33,11 @@ public class ActorStats
     /// 闪避值
     /// </summary>
     public int Agi { get; set; }
+    
+    /// <summary>
+    /// SUCCESS常数
+    /// </summary>
+    public float SUCCESS => 1 + (Cmp / 100f);
+
+    public float Evade => SUCCESS * (Agi / 100f);
 }

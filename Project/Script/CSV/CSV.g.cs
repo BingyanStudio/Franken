@@ -70,7 +70,7 @@ public partial class CSV
             Passive = Util.GetList<string>(data[5]);
             Hp = Util.GetString(data[6]);
             San = Util.GetString(data[7]);
-            Mp = Util.GetString(data[8]);
+            Cmp = Util.GetString(data[8]);
             Pt = Util.GetString(data[9]);
             Def = Util.GetString(data[10]);
             Agi = Util.GetString(data[11]);
@@ -84,7 +84,7 @@ public partial class CSV
         public List<string> Passive { get; set; }
         public string Hp { get; set; }
         public string San { get; set; }
-        public string Mp { get; set; }
+        public string Cmp { get; set; }
         public string Pt { get; set; }
         public string Def { get; set; }
         public string Agi { get; set; }

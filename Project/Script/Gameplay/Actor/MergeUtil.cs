@@ -30,8 +30,8 @@ public static class MergeUtil
 
     public static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
     {
-        int addHp = 0, addSan = 0, addMp = 0, addPt = 0, addAtk = 0, addDef = 0, addAgi = 0;
-        float mulHp = 0, mulSan = 0, mulMp = 0, mulPt = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
+        int addHp = 0, addSan = 0, addCmp = 0, addPt = 0, addAtk = 0, addDef = 0, addAgi = 0;
+        float mulHp = 0, mulSan = 0, mulCmp = 0, mulPt = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
 
         stats.ForEach(s =>
         {
@@ -45,10 +45,10 @@ public static class MergeUtil
                 case Number.ValueType.Int: addSan += s.San; break;
                 case Number.ValueType.Float: mulSan += s.San; break;
             }
-            switch (s.Mp.Type)
+            switch (s.Cmp.Type)
             {
-                case Number.ValueType.Int: addMp += s.Mp; break;
-                case Number.ValueType.Float: mulMp += s.Mp; break;
+                case Number.ValueType.Int: addCmp += s.Cmp; break;
+                case Number.ValueType.Float: addCmp += s.Cmp; break;
             }
             switch (s.Pt.Type)
             {
@@ -71,7 +71,7 @@ public static class MergeUtil
         {
             Hp = (int)(addHp * (mulHp + 1)),
             San = (int)(addSan * (mulSan + 1)),
-            Mp = (int)(addMp * (mulMp + 1)),
+            Cmp = (int)(addCmp * (mulCmp + 1)),
             Pt = (int)(addPt * (mulPt + 1)),
             Atk = (int)(addAtk * (mulAtk + 1)),
             Def = (int)(addDef * (mulDef + 1)),

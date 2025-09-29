@@ -9,7 +9,7 @@ public class ActorBodyPartStats
 {
     public Number Hp { get; set; }
     public Number San { get; set; }
-    public Number Mp { get; set; }
+    public Number Cmp { get; set; }
     public Number Pt { get; set; }
     public Number Def { get; set; }
     public Number Agi { get; set; }
@@ -23,7 +23,7 @@ public class ActorBodyPartStats
         {
             Hp = new(part.Hp),
             San = new(part.San),
-            Mp = new(part.Mp),
+            Cmp = new(part.Cmp),
             Pt = new(part.Pt),
             Def = new(part.Def),
             Agi = new(part.Agi)
