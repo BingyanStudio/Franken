@@ -40,9 +40,9 @@ public partial class MergeWindow : UIWindowBase
     [Export]
     private float zoomScale = 1.5f;
 
-    private readonly List<ActorBodyPart.Component> compList = [];
-    private ActorBodyPart.Component CurrentComp =>
-        CurrentCompSlotIdx < 0 ? ActorBodyPart.Component.None : compList[CurrentCompSlotIdx];
+    private readonly List<CSV.ActorBodyPart.Component> compList = [];
+    private CSV.ActorBodyPart.Component CurrentComp =>
+        CurrentCompSlotIdx < 0 ? CSV.ActorBodyPart.Component.None : compList[CurrentCompSlotIdx];
 
     private CSV.ActorBodyPart[] editCache = new CSV.ActorBodyPart[7];
 
@@ -137,7 +137,7 @@ public partial class MergeWindow : UIWindowBase
             slot.FocusNeighborTop = slot.FocusNeighborBottom = slot.FocusNeighborLeft = slot.FocusNeighborRight = null;
 
             btn.Pressed += () => CurrentCompSlotIdx = idx;
-            compList.Add(Enum.Parse<ActorBodyPart.Component>(slot.GetMeta("Component", "None").AsString()));
+            compList.Add(Enum.Parse<CSV.ActorBodyPart.Component>(slot.GetMeta("Component", "None").AsString()));
         });
     }
 
@@ -161,7 +161,7 @@ public partial class MergeWindow : UIWindowBase
 
     private bool CanZoom(int value) => !zooming;
 
-    private void InitBag(ActorBodyPart.Component comp, IEnumerable<CSV.ActorBodyPart> data)
+    private void InitBag(CSV.ActorBodyPart.Component comp, IEnumerable<CSV.ActorBodyPart> data)
     {
         var targetComps = data.Where(d => d.Comp.HasFlag(comp)).ToArray();
         bagSlots.ReserveChildren(targetComps.Length, (idx, slot) =>

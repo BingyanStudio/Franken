@@ -10,11 +10,50 @@ public partial class CSV
 {
     public static void LoadAll()
     {
+        ActiveConf.Load();
         ActorBodyPart.Load();
+        PassiveConf.Load();
     }
 
-    public class ActorBodyPart
+    public partial class ActiveConf
     {
+        static ActiveConf() => Load();
+
+        public static List<ActiveConf> Data { get; private set; }
+
+        private static Dictionary<string, ActiveConf> dict;
+        public static ActiveConf Get(string key) =>
+            dict.TryGetValue(key, out var value) ? value : null;
+
+        private ActiveConf(string[] data)
+        {
+            ID = Util.GetString(data[0]);
+            Name = Util.GetString(data[1]);
+            Desc = Util.GetString(data[2]);
+        }
+
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+
+        public static void Load()
+        {
+            if (Data != null) return;
+            Data = [];
+            using var fa = FileAccess.Open("res://Assets/Config/CSV/ActiveConf.txt", FileAccess.ModeFlags.Read);
+            while (!fa.EofReached()) {
+                var tokens = fa.GetCsvLine("\t");
+                if (tokens.All(string.IsNullOrEmpty)) continue;
+                Data.Add(new(tokens));
+            }
+            dict = Data.ToDictionary(data => data.ID);
+        }
+    }
+
+    public partial class ActorBodyPart
+    {
+        static ActorBodyPart() => Load();
+
         public static List<ActorBodyPart> Data { get; private set; }
 
         private static Dictionary<string, ActorBodyPart> dict;
@@ -23,40 +62,79 @@ public partial class CSV
 
         private ActorBodyPart(string[] data)
         {
-            Name = Util.GetString(data[0]);
-            Qual = Util.GetEnum<Franken.ActorBodyPart.Quality>(data[1]);
-            Comp = Util.GetEnum<Franken.ActorBodyPart.Component>(data[2]);
-            Active = Util.GetString(data[3]);
-            Passive = Util.GetString(data[4]);
-            Hp = Util.GetString(data[5]);
-            San = Util.GetString(data[6]);
-            Mp = Util.GetString(data[7]);
-            Pt = Util.GetString(data[8]);
-            Atk = Util.GetString(data[9]);
+            ID = Util.GetString(data[0]);
+            Name = Util.GetString(data[1]);
+            Qual = Util.GetEnum<Quality>(data[2]);
+            Comp = Util.GetEnum<Component>(data[3]);
+            Active = Util.GetList<string>(data[4]);
+            Passive = Util.GetList<string>(data[5]);
+            Hp = Util.GetString(data[6]);
+            San = Util.GetString(data[7]);
+            Mp = Util.GetString(data[8]);
+            Pt = Util.GetString(data[9]);
             Def = Util.GetString(data[10]);
             Agi = Util.GetString(data[11]);
         }
 
-        public string Name { get; init; }
-        public Franken.ActorBodyPart.Quality Qual { get; init; }
-        public Franken.ActorBodyPart.Component Comp { get; init; }
-        public string Active { get; init; }
-        public string Passive { get; init; }
-        public string Hp { get; init; }
-        public string San { get; init; }
-        public string Mp { get; init; }
-        public string Pt { get; init; }
-        public string Atk { get; init; }
-        public string Def { get; init; }
-        public string Agi { get; init; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public Quality Qual { get; set; }
+        public Component Comp { get; set; }
+        public List<string> Active { get; set; }
+        public List<string> Passive { get; set; }
+        public string Hp { get; set; }
+        public string San { get; set; }
+        public string Mp { get; set; }
+        public string Pt { get; set; }
+        public string Def { get; set; }
+        public string Agi { get; set; }
 
         public static void Load()
         {
             if (Data != null) return;
             Data = [];
             using var fa = FileAccess.Open("res://Assets/Config/CSV/ActorBodyPart.txt", FileAccess.ModeFlags.Read);
-            while (!fa.EofReached()) Data.Add(new(fa.GetCsvLine("\t")));
-            dict = Data.ToDictionary(data => data.Name);
+            while (!fa.EofReached()) {
+                var tokens = fa.GetCsvLine("\t");
+                if (tokens.All(string.IsNullOrEmpty)) continue;
+                Data.Add(new(tokens));
+            }
+            dict = Data.ToDictionary(data => data.ID);
+        }
+    }
+
+    public partial class PassiveConf
+    {
+        static PassiveConf() => Load();
+
+        public static List<PassiveConf> Data { get; private set; }
+
+        private static Dictionary<string, PassiveConf> dict;
+        public static PassiveConf Get(string key) =>
+            dict.TryGetValue(key, out var value) ? value : null;
+
+        private PassiveConf(string[] data)
+        {
+            ID = Util.GetString(data[0]);
+            Name = Util.GetString(data[1]);
+            Desc = Util.GetString(data[2]);
+        }
+
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+
+        public static void Load()
+        {
+            if (Data != null) return;
+            Data = [];
+            using var fa = FileAccess.Open("res://Assets/Config/CSV/PassiveConf.txt", FileAccess.ModeFlags.Read);
+            while (!fa.EofReached()) {
+                var tokens = fa.GetCsvLine("\t");
+                if (tokens.All(string.IsNullOrEmpty)) continue;
+                Data.Add(new(tokens));
+            }
+            dict = Data.ToDictionary(data => data.ID);
         }
     }
 

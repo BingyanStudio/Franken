@@ -32,8 +32,10 @@ public class ObservableObjectAttribute : Attribute { }
 ///     get => idx;
 ///     set 
 ///     {
-///         OnIdxChange?.(idx, value);
+///         if (idx == value) return;
+///         var temp = idx;
 ///         idx = value;
+///         OnIdxChange?.(temp, value);
 ///     }
 /// }
 /// </code>

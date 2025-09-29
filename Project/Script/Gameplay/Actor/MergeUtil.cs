@@ -5,15 +5,15 @@ namespace Franken;
 
 public static class MergeUtil
 {
-    public static ActorBodyPart.Component EssentialComps =>
-        ActorBodyPart.Component.Head |
-        ActorBodyPart.Component.Heart |
-        ActorBodyPart.Component.Torso |
-        ActorBodyPart.Component.Limb;
+    public static CSV.ActorBodyPart.Component EssentialComps =>
+        CSV.ActorBodyPart.Component.Head |
+        CSV.ActorBodyPart.Component.Heart |
+        CSV.ActorBodyPart.Component.Torso |
+        CSV.ActorBodyPart.Component.Limb;
 
     public static bool CanMerge(IEnumerable<CSV.ActorBodyPart> parts)
     {
-        ActorBodyPart.Component comps = ActorBodyPart.Component.None;
+        CSV.ActorBodyPart.Component comps = CSV.ActorBodyPart.Component.None;
         parts.ForEach(part => comps |= part.Comp);
         return comps.HasFlag(EssentialComps);
     }
@@ -24,7 +24,7 @@ public static class MergeUtil
     /// </summary>
     public static ActorBody Merge(IEnumerable<CSV.ActorBodyPart> parts) => new()
     {
-        Stats = CalculateStats(parts.Select(part => ActorBodyPartStats.FromCSV(part.Name))),
+        Stats = CalculateStats(parts.Select(part => ActorBodyPartStats.FromCSV(part.ID))),
         Parts = parts.ToArray()
     };
 
@@ -54,11 +54,6 @@ public static class MergeUtil
             {
                 case Number.ValueType.Int: addPt += s.Pt; break;
                 case Number.ValueType.Float: mulPt += s.Pt; break;
-            }
-            switch (s.Atk.Type)
-            {
-                case Number.ValueType.Int: addAtk += s.Atk; break;
-                case Number.ValueType.Float: mulAtk += s.Atk; break;
             }
             switch (s.Def.Type)
             {

@@ -18,6 +18,8 @@ public partial class CSV
     {{- range .}}
     public partial class {{.Name}}
     {
+        static {{.Name}}() => Load();
+
         public static List<{{.Name}}> Data { get; private set; }
 
         private static Dictionary<{{- range .Fields}}{{.Type}}{{- break}}{{- end}}, {{.Name}}> dict;
@@ -42,7 +44,7 @@ public partial class CSV
         }
         {{- println}}
         {{- range .Fields}}
-        public {{.Type}} {{.Identifier}} { get; init; }
+        public {{.Type}} {{.Identifier}} { get; set; }
         {{- end}}
 
         public static void Load()
@@ -52,7 +54,7 @@ public partial class CSV
             using var fa = FileAccess.Open("{{.Path}}", FileAccess.ModeFlags.Read);
             while (!fa.EofReached()) {
                 var tokens = fa.GetCsvLine("\t");
-                if (tokens.Length == 1) continue;
+                if (tokens.All(string.IsNullOrEmpty)) continue;
                 Data.Add(new(tokens));
             }
             dict = Data.ToDictionary(data => data.{{- range .Fields}}{{.Identifier}}{{- break}}{{- end}});

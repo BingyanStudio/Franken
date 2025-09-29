@@ -11,13 +11,12 @@ public class ActorBodyPartStats
     public Number San { get; set; }
     public Number Mp { get; set; }
     public Number Pt { get; set; }
-    public Number Atk { get; set; }
     public Number Def { get; set; }
     public Number Agi { get; set; }
 
-    public static ActorBodyPartStats FromCSV(string name)
+    public static ActorBodyPartStats FromCSV(string id)
     {
-        var part = CSV.ActorBodyPart.Get(name);
+        var part = CSV.ActorBodyPart.Get(id);
         if (part == null) return null;
 
         return new()
@@ -26,7 +25,6 @@ public class ActorBodyPartStats
             San = new(part.San),
             Mp = new(part.Mp),
             Pt = new(part.Pt),
-            Atk = new(part.Atk),
             Def = new(part.Def),
             Agi = new(part.Agi)
         };

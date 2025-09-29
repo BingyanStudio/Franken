@@ -57,6 +57,7 @@ public partial class {className}
 {{
     protected override void GetRef()
     {{
+        base.GetRef();
         var children = this.GetAllChildren().ToLookup(child => child.Name);");
         foreach (var field in classDeclaration.ChildNodes()
                                               .OfType<FieldDeclarationSyntax>()
