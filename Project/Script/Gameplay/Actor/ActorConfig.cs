@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+namespace Franken;
+
 /// <summary>
 /// 角色相关的配置
 /// </summary>

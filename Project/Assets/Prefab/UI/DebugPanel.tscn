@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://dnmjahblejqno"]
+
+[ext_resource type="Script" uid="uid://b7ilyed5ljo4w" path="res://Script/UI/Debug/DebugConsole.cs" id="1_axo2w"]
+
+[node name="DebugPanel" type="CanvasLayer" node_paths=PackedStringArray("commandText", "historyLog")]
+script = ExtResource("1_axo2w")
+commandText = NodePath("PanelContainer/VBoxContainer/LineEdit")
+historyLog = NodePath("PanelContainer/VBoxContainer/History")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_left = 62.0
+offset_top = 394.0
+offset_right = 782.0
+offset_bottom = 644.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="History" type="RichTextLabel" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+scroll_following = true
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+placeholder_text = "Enter command..."
+context_menu_enabled = false

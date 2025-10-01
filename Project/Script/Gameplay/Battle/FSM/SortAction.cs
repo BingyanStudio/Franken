@@ -15,7 +15,7 @@ public partial class SortAction : BaseState
 
         // TODO: 根据BUFF决定是否能够行动
         BattleManager.Instance.Units.ForEach(p => p.CanAct = true);
-
+        
         await this.AwaitAeEnd();
     }
 

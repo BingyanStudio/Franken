@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvbg6m1nct01l"]
+
+[ext_resource type="PackedScene" uid="uid://b65vmqmvyu48d" path="res://Assets/Prefab/Manager/BattleManager.tscn" id="1_kjax4"]
+
+[node name="WjrTest" type="Node2D"]
+
+[node name="BattleScene" parent="." instance=ExtResource("1_kjax4")]
+
+[editable path="BattleScene"]

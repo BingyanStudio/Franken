@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Franken;
 
 /// <summary>
-/// 事件总线
+/// 事件总线，一定要用Autoload加载
 /// </summary>
 [GlobalClass, EventBus]
 public partial class EventBus : Node
