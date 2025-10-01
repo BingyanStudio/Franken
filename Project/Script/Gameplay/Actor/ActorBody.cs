@@ -5,6 +5,7 @@ namespace Franken;
 
 public class ActorBody
 {
+
     public ActorStats Stats { get; set; }
 
     public CSV.ActorBodyPart[] Parts { get; set; }

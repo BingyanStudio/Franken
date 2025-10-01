@@ -3,14 +3,19 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+namespace Franken;
+
+[ObservableObject]
 public partial class BattleManager : Node
 {
-    public BattleManager Instance { get; private set; }
-
+    public static BattleManager Instance { get; private set; }
+        
     //这里先直接给出，只需要纯粹的数值
-    public List<ActorBody> Allies { get; private set; }
-    public List<ActorBody> Enemies { get; private set; }
-
+    /// <summary>
+    /// 行动顺序
+    /// </summary>
+    [ObservableProperty]
+    private List<Unit> units;
 
     public override void _Ready()
     {

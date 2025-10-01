@@ -28,6 +28,24 @@ public static class MergeUtil
         Parts = parts.ToArray()
     };
 
+    public static int CalculatePt(IEnumerable<CSV.ActorBodyPart> stats)
+    {
+        int addPt = 0;
+        float mulPt = 0;
+        var bodies = stats.Select(part => ActorBodyPartStats.FromCSV(part.ID));
+
+        bodies.ForEach(s =>
+        {
+            
+            switch (s.Pt.Type)
+            {
+                case Number.ValueType.Int: addPt += s.Pt; break;
+                case Number.ValueType.Float: mulPt += s.Pt; break;
+            }
+        });
+        return (int)(addPt * (1 + mulPt));
+    }
+
     public static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
     {
         int addHp = 0, addSan = 0, addCmp = 0, addPt = 0, addAtk = 0, addDef = 0, addAgi = 0;

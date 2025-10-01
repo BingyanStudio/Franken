@@ -24,7 +24,8 @@ public partial class BattleFSM : Node
     /// <returns></returns>
     private async Task FSMLoop()
     {
-        State = await State.OnStateExecuteAsync();
+        await State.ExecuteAsync();
+        State = State.NextState();
     }
 
 }
