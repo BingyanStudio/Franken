@@ -29,6 +29,10 @@ public partial class MergeWindow : UIWindowBase
     private BaseButton next;
     [UIRef]
     private Control bagSlots;
+    [UIRef]
+    private Control activeSkillsContainer;
+    [UIRef]
+    private Control passiveSkillsContainer;
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
@@ -43,6 +47,9 @@ public partial class MergeWindow : UIWindowBase
     private readonly List<CSV.ActorBodyPart.Component> compList = [];
     private CSV.ActorBodyPart.Component CurrentComp =>
         CurrentCompSlotIdx < 0 ? CSV.ActorBodyPart.Component.None : compList[CurrentCompSlotIdx];
+
+    private CSV.ActorBodyPart[] targetParts;
+    private int maxTargetPartsIdx;
 
     private CSV.ActorBodyPart[] editCache = new CSV.ActorBodyPart[7];
 
@@ -82,7 +89,7 @@ public partial class MergeWindow : UIWindowBase
                 zoomTarget = partSlots.GetChild<Control>(newValue);
                 part.Text = CurrentComp.GetDescription();
 
-                InitBag(CurrentComp, Parts);
+                InitBag(Parts);
             }
 
             zoom.ToPos(editCenter.Position - zoomTarget.Position)
@@ -123,6 +130,8 @@ public partial class MergeWindow : UIWindowBase
     {
         base.Setup();
 
+        ResetSkillPanel();
+
         Bind();
 
         partSlots.TraverseChildren((idx, slot) =>
@@ -161,10 +170,10 @@ public partial class MergeWindow : UIWindowBase
 
     private bool CanZoom(int value) => !zooming;
 
-    private void InitBag(CSV.ActorBodyPart.Component comp, IEnumerable<CSV.ActorBodyPart> data)
+    private void InitBag(IEnumerable<CSV.ActorBodyPart> data)
     {
-        var targetComps = data.Where(d => d.Comp.HasFlag(comp)).ToArray();
-        bagSlots.ReserveChildren(targetComps.Length, (idx, slot) =>
+        targetParts = data.Where(d => d.Comp.HasFlag(CurrentComp)).ToArray();
+        bagSlots.ReserveChildren(targetParts.Length, (idx, slot) =>
         {
             if (slot is not BaseButton btn) return;
 
@@ -172,18 +181,63 @@ public partial class MergeWindow : UIWindowBase
             var img = children["Img"] as TextureRect;
             var name = children["Name"] as Label;
 
-            var target = targetComps[idx];
+            var target = targetParts[idx];
 
             // TODO: 图片
             name.Text = target.Name;
-            btn.Pressed += () =>
+
+            if (maxTargetPartsIdx > idx) return;
+            maxTargetPartsIdx++;
+
+            btn.FocusEntered += () =>
             {
+                var target = targetParts[idx];
+
+                // 技能
+                activeSkillsContainer.ReserveChildren(target.Active.Count, (idx, trans) =>
+                {
+                    var conf = CSV.ActiveConf.Get(target.Active[idx]);
+                    if (conf == null)
+                    {
+                        LogTool.Error("CSV", $"ActiveConf表中找不到主键{target.Active[idx]}");
+                        return;
+                    }
+
+                    if (trans is not Label label) return;
+
+                    label.Text = $"{conf.Name}：{conf.Desc}";
+                });
+
+                passiveSkillsContainer.ReserveChildren(target.Passive.Count, (idx, trans) =>
+                {
+                    var conf = CSV.PassiveConf.Get(target.Passive[idx]);
+                    if (conf == null)
+                    {
+                        LogTool.Error("CSV", $"PassiveConf表中找不到主键{target.Passive[idx]}");
+                        return;
+                    }
+
+                    if (trans is not Label label) return;
+
+                    label.Text = $"{conf.Name}：{conf.Desc}";
+                });
+
+                // TODO: 数值
+
                 var cache = editCache[CurrentCompSlotIdx];
                 if (cache == target) return;
 
                 if (cache != null) currentParts.Remove(cache);
                 currentParts.Add(editCache[CurrentCompSlotIdx] = target);
             };
+
+            btn.FocusExited += ResetSkillPanel;
         });
+    }
+
+    private void ResetSkillPanel()
+    {
+        activeSkillsContainer.ReserveChildren(0, null);
+        passiveSkillsContainer.ReserveChildren(0, null);
     }
 }

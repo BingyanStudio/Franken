@@ -389,8 +389,8 @@ layout_mode = 1
 anchor_top = 0.3
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 756.0
-offset_bottom = 756.0
+offset_top = 864.0
+offset_bottom = 864.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -620,11 +620,11 @@ label_settings = SubResource("LabelSettings_v0b5x")
 layout_mode = 2
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills"]
+[node name="ActiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills/ActiveSkillsContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 text = "原神：空月之歌"
@@ -640,11 +640,11 @@ label_settings = SubResource("LabelSettings_v0b5x")
 layout_mode = 2
 theme_override_constants/margin_left = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills"]
+[node name="PassiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills/VBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills/PassiveSkillsContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 text = "崩坏：星穹铁道"
