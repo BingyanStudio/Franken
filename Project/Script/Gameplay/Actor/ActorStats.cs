@@ -52,7 +52,7 @@ public partial class ActorStats
 
     #region 属性
     /// <summary>
-    /// 血量条上限
+    /// 血量条上限，非状态值
     /// </summary>
     [ObservableProperty]
     private int maxHp;
@@ -72,20 +72,26 @@ public partial class ActorStats
     /// <summary>
     /// 完整度
     /// </summary>
-    [ObservableProperty]
+    [ObservableClampProperty(minimum:"MinCmp", maximum:"MaxCmp")]
     private int cmp;
 
     /// <summary>
-    /// 行动点
+    /// 行动点实际值，状态值
     /// </summary>
-    [ObservableProperty]
+    [ObservableClampProperty(minimum: "MinPt", maximum: "MaxPt")]
     private int pt;
 
     /// <summary>
-    /// 行动点回复值
+    /// 行动点回复值，非状态值
     /// </summary>
     [ObservableProperty]
     private int pth;
+
+    /// <summary>
+    /// 行动点初始值，非状态值
+    /// </summary>
+    [ObservableProperty]
+    private int pti;
 
     /// <summary>
     /// 攻击力
@@ -96,13 +102,13 @@ public partial class ActorStats
     /// <summary>
     /// 防御力
     /// </summary>
-    [ObservableProperty] 
+    [ObservableClampProperty(minimum: "MinDef", maximum: "MaxDef")]
     private int def;
 
     /// <summary>
     /// 闪避值
     /// </summary>
-    [ObservableProperty] 
+    [ObservableClampProperty(minimum: "MinAgi", maximum: "MaxAgi")] 
     private int agi;
 
     #endregion
@@ -116,7 +122,7 @@ public partial class ActorStats
     /// <summary>
     /// 闪避率
     /// </summary>
-    public float Evade => SUCCESS * (Agi / 100f) * (1 - (Hp / 2f * MaxHp));
+    public float Evade => SUCCESS * (Agi / 100f) * (1 - (Hp / (2f * MaxHp)));
 
     /// <summary>
     /// 暴击率

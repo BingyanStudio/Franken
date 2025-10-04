@@ -28,28 +28,13 @@ public static class MergeUtil
         Parts = parts.ToArray()
     };
 
-    public static int CalculatePt(IEnumerable<CSV.ActorBodyPart> stats)
+    /// <summary>
+    /// 统计所有加算乘算属性
+    /// </summary>
+    private static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
     {
-        int addPt = 0;
-        float mulPt = 0;
-        var bodies = stats.Select(part => ActorBodyPartStats.FromCSV(part.ID));
-
-        bodies.ForEach(s =>
-        {
-            
-            switch (s.Pt.Type)
-            {
-                case Number.ValueType.Int: addPt += s.Pt; break;
-                case Number.ValueType.Float: mulPt += s.Pt; break;
-            }
-        });
-        return (int)(addPt * (1 + mulPt));
-    }
-
-    public static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
-    {
-        int addHp = 0, addSan = 0, addCmp = 0, addPt = 0, addPth = 0, addAtk = 0, addDef = 0, addAgi = 0;
-        float mulHp = 0, mulSan = 0, mulCmp = 0, mulPt = 0, mulPth = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
+        int addHp = 0, addSan = 0, addCmp = 0, addPti = 0, addPth = 0, addAtk = 0, addDef = 0, addAgi = 0;
+        float mulHp = 0, mulSan = 0, mulCmp = 0, mulPti = 0, mulPth = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
 
         stats.ForEach(s =>
         {
@@ -68,10 +53,10 @@ public static class MergeUtil
                 case Number.ValueType.Int: addCmp += s.Cmp; break;
                 case Number.ValueType.Float: addCmp += s.Cmp; break;
             }
-            switch (s.Pt.Type)
+            switch (s.Pti.Type)
             {
-                case Number.ValueType.Int: addPt += s.Pt; break;
-                case Number.ValueType.Float: mulPt += s.Pt; break;
+                case Number.ValueType.Int: addPti += s.Pti; break;
+                case Number.ValueType.Float: mulPti += s.Pti; break;
             }
             switch (s.Pth.Type)
             {
@@ -92,12 +77,18 @@ public static class MergeUtil
 
         return new()
         {
+            //初始Hp=MaxHp
             MaxHp = (int)(addHp * (mulHp + 1)),
             Hp = (int)(addHp * (mulHp + 1)),
+
             San = (int)(addSan * (mulSan + 1)),
             Cmp = (int)(addCmp * (mulCmp + 1)),
-            Pt = (int)(addPt * (mulPt + 1)),
+
+            //初始Pt可以随便设置，但是先设置为Pti好
+            Pt = (int)(addPti * (mulPti + 1)),
+            Pti = (int)(addPti * (mulPti + 1)),
             Pth = (int)(addPth * (mulPth + 1)),
+
             Atk = (int)(addAtk * (mulAtk + 1)),
             Def = (int)(addDef * (mulDef + 1)),
             Agi = (int)(addAgi * (mulAgi + 1)),

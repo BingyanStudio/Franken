@@ -71,7 +71,7 @@ public partial class CSV
             Hp = Util.GetString(data[6]);
             San = Util.GetString(data[7]);
             Cmp = Util.GetString(data[8]);
-            Pt = Util.GetString(data[9]);
+            Pti = Util.GetString(data[9]);
             Pth = Util.GetString(data[10]);
             Def = Util.GetString(data[11]);
             Agi = Util.GetString(data[12]);
@@ -86,7 +86,7 @@ public partial class CSV
         public string Hp { get; set; }
         public string San { get; set; }
         public string Cmp { get; set; }
-        public string Pt { get; set; }
+        public string Pti { get; set; }
         public string Pth { get; set; }
         public string Def { get; set; }
         public string Agi { get; set; }

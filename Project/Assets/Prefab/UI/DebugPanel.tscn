@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dnmjahblejqno"]
 
-[ext_resource type="Script" uid="uid://b7ilyed5ljo4w" path="res://Script/UI/Debug/DebugConsole.cs" id="1_axo2w"]
+[ext_resource type="Script" uid="uid://b7ilyed5ljo4w" path="res://Script/UI/Console/DebugConsole.cs" id="1_axo2w"]
 
 [node name="DebugPanel" type="CanvasLayer" node_paths=PackedStringArray("commandText", "historyLog")]
 script = ExtResource("1_axo2w")

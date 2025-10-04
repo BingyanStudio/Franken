@@ -8,7 +8,7 @@ namespace Franken;
 /// 战斗单元
 /// </summary>
 [ObservableObject]
-public partial class Unit : Node
+public partial class Unit
 {
     /// <summary>
     /// 阵营
@@ -28,5 +28,5 @@ public partial class Unit : Node
     [ObservableProperty]
     private bool canAct;
 
-
+    
 }

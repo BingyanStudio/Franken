@@ -1,4 +1,5 @@
 using Franken;
+using Franken.Utils;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,15 @@ public partial class BattleManager : Node
 {
     public static BattleManager Instance { get; private set; }
         
-    //这里先直接给出，只需要纯粹的数值
     /// <summary>
-    /// 行动顺序
+    /// 场上单元
     /// </summary>
-    [ObservableProperty]
-    private List<Unit> units;
+    public ObservableCollection<Unit> Units { get; private set; }
+
+    /// <summary>
+    /// 场上格子
+    /// </summary>
+    public List<Grid> Grids { get; private set; }
 
     public override void _Ready()
     {
