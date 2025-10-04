@@ -19,7 +19,7 @@ public static class MergeUtil
     }
 
     /// <summary>
-    /// 将<see cref="ActorBodyPart"/>融合成<see cref="ActorBody"/>
+    /// 将<see cref="CSV.ActorBodyPart"/>融合成<see cref="ActorBody"/>
     /// <br/>融合前记得判断<see cref="CanMerge(IEnumerable{ActorBodyPart})"/>
     /// </summary>
     public static ActorBody Merge(IEnumerable<CSV.ActorBodyPart> parts) => new()
@@ -48,8 +48,8 @@ public static class MergeUtil
 
     public static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
     {
-        int addHp = 0, addSan = 0, addCmp = 0, addPt = 0, addAtk = 0, addDef = 0, addAgi = 0;
-        float mulHp = 0, mulSan = 0, mulCmp = 0, mulPt = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
+        int addHp = 0, addSan = 0, addCmp = 0, addPt = 0, addPth = 0, addAtk = 0, addDef = 0, addAgi = 0;
+        float mulHp = 0, mulSan = 0, mulCmp = 0, mulPt = 0, mulPth = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
 
         stats.ForEach(s =>
         {
@@ -73,6 +73,11 @@ public static class MergeUtil
                 case Number.ValueType.Int: addPt += s.Pt; break;
                 case Number.ValueType.Float: mulPt += s.Pt; break;
             }
+            switch (s.Pth.Type)
+            {
+                case Number.ValueType.Int: addPth += s.Pth; break;
+                case Number.ValueType.Float: mulPth += s.Pth; break;
+            }
             switch (s.Def.Type)
             {
                 case Number.ValueType.Int: addDef += s.Def; break;
@@ -92,6 +97,7 @@ public static class MergeUtil
             San = (int)(addSan * (mulSan + 1)),
             Cmp = (int)(addCmp * (mulCmp + 1)),
             Pt = (int)(addPt * (mulPt + 1)),
+            Pth = (int)(addPth * (mulPth + 1)),
             Atk = (int)(addAtk * (mulAtk + 1)),
             Def = (int)(addDef * (mulDef + 1)),
             Agi = (int)(addAgi * (mulAgi + 1)),

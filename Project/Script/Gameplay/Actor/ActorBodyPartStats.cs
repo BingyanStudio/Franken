@@ -11,6 +11,7 @@ public class ActorBodyPartStats
     public Number San { get; set; }
     public Number Cmp { get; set; }
     public Number Pt { get; set; }
+    public Number Pth { get; set; }
     public Number Def { get; set; }
     public Number Agi { get; set; }
 
@@ -25,6 +26,7 @@ public class ActorBodyPartStats
             San = new(part.San),
             Cmp = new(part.Cmp),
             Pt = new(part.Pt),
+            Pth = new(part.Pth),
             Def = new(part.Def),
             Agi = new(part.Agi)
         };

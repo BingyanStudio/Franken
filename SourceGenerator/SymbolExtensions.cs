@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ internal static class SymbolExtensions
         }
         return false;
     }
-
+ 
     internal static bool DirectlyInheritsFrom(this ClassDeclarationSyntax node, string name)
         => node.BaseList != null && node.BaseList.Types.Any(t => t.ToString() == name);
 
@@ -52,6 +53,12 @@ internal static class SymbolExtensions
 
     internal static T GetUnique<T>(this AttributeSyntax node) where T : ExpressionSyntax
         => node.ArgumentList?.Arguments.Select(a => a.Expression).OfType<T>().FirstOrDefault();
+
+    internal static string GetValue(this AttributeSyntax node, string property)
+    {
+        var element = node.ArgumentList?.Arguments.Where(a => a.NameColon != null && a.NameColon.Name.Identifier.ValueText == property).FirstOrDefault();
+        return element?.Expression?.ToString();
+    }
 
     internal static string GetClass(this FieldDeclarationSyntax node)
         => (node.Parent as ClassDeclarationSyntax).Identifier.Text;

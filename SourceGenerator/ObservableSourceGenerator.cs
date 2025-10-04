@@ -86,6 +86,45 @@ public partial class {className}
                     ");
         }
 
+        foreach (var field in classDeclaration.ChildNodes()
+                                              .OfType<FieldDeclarationSyntax>()
+                                              .Where(n => n.HasAttribute("ObservableClampProperty")))
+        {
+            var fieldType = field.Declaration.Type;
+            var fieldName = field.Declaration.Variables.First().Identifier.Text;
+            var fieldNameNew = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
+
+            var attr = field.GetAttribute("ObservableClampProperty");
+            var validate = attr.GetValue("validate");
+            var minimum = attr.GetValue("minimum").Trim('\"');
+            var maximum = attr.GetValue("maximum").Trim('\"');
+
+            sb.Append($@"
+    /// <summary>On{fieldNameNew}Changed({fieldType} oldValue, {fieldType} newValue)</summary>
+    public Action<{fieldType}, {fieldType}> On{fieldNameNew}Changed;
+    public {fieldType} {fieldNameNew}
+    {{
+        get => {fieldName};
+        set 
+        {{");
+
+            if (!string.IsNullOrEmpty(validate)) sb.Append($@"
+            if (!{validate}(value)) return;");
+
+            if (!string.IsNullOrEmpty(maximum) && !string.IsNullOrEmpty(minimum)) sb.Append($@"
+            value = Math.Clamp(value, {minimum}, {maximum});
+            ");
+
+            sb.Append($@"
+            if ({fieldName} == value) return;
+            var temp = {fieldName};
+            {fieldName} = value;
+            On{fieldNameNew}Changed?.Invoke(temp, value);
+        }}
+    }}
+                    ");
+        }
+
         sb.Append("\n}");
 
         return sb.ToString();

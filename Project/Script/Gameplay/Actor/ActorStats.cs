@@ -66,7 +66,7 @@ public partial class ActorStats
     /// <summary>
     /// SAN值
     /// </summary>
-    [ObservableProperty] 
+    [ObservableClampProperty(minimum:"MinSan", maximum:"MaxSan")] 
     private int san;
 
     /// <summary>
@@ -80,6 +80,12 @@ public partial class ActorStats
     /// </summary>
     [ObservableProperty]
     private int pt;
+
+    /// <summary>
+    /// 行动点回复值
+    /// </summary>
+    [ObservableProperty]
+    private int pth;
 
     /// <summary>
     /// 攻击力
