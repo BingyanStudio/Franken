@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b65vmqmvyu48d"]
 
-[ext_resource type="Script" uid="uid://db2t51sar2j87" path="res://Script/Gameplay/Battle/BattleManager.cs" id="1_dvron"]
+[ext_resource type="Script" uid="uid://db2t51sar2j87" path="res://Script/Gameplay/Battle/BattleStats.cs" id="1_dvron"]
 [ext_resource type="Script" uid="uid://b7pfgb32eanvc" path="res://Script/Gameplay/Battle/FSM/BattleFSM.cs" id="2_5b57h"]
 
 [node name="BattleScene" type="Node"]

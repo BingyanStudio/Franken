@@ -13,9 +13,8 @@ public partial class EnterBattle : BaseState
 
     public async override Task ExecuteAsync()
     {
-        //分配初始行动点
-        BattleManager.Instance.Units.ForEach(actor => actor.ActorBody.Stats.Pt = actor.ActorBody.Stats.Pti);
-        
+        CommandProcessor.ProcessCommand(new AssignInitalPtCommand());// 分配初始行动点
+
         await this.AwaitAeEnd();
     }
 

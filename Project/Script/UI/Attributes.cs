@@ -83,12 +83,5 @@ public class ObservablePropertyAttribute : Attribute
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public class ObservableClampPropertyAttribute : ObservablePropertyAttribute
 {
-    public string Minimum { get; set; }
-    public string Maximum { get; set; }
-
-    public ObservableClampPropertyAttribute(string minimum = null, string maximum = null, string validate = null) : base(validate)
-    {
-        Minimum = minimum;
-        Maximum = maximum;
-    }
+    public ObservableClampPropertyAttribute(string minimum = null, string maximum = null, string validate = null) : base(validate) { }
 }

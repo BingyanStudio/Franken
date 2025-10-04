@@ -11,7 +11,7 @@ public partial class TurnStart : BaseState
         //TODO:结算Buff
 
         //TODO:添加行动点
-        BattleManager.Instance.Units.ForEach(u => u.ActorBody.Stats.Pt += u.ActorBody.Stats.Pth);
+        CommandProcessor.ProcessCommand(new AssignHealPtCommand());
 
         await this.AwaitAeEnd();
     }
