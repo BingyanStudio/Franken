@@ -1,3 +1,4 @@
+using Franken.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,4 +12,5 @@ namespace Franken;
 /// </summary>
 public class BuffDict
 {
+    //public ObservableDictionary<string, BaseBuff> Buffs;
 }

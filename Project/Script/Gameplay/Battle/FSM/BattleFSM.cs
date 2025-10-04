@@ -21,11 +21,9 @@ public partial class BattleFSM : Node
     /// <summary>
     /// 启动之后就开始循环
     /// </summary>
-    /// <returns></returns>
     private async Task FSMLoop()
     {
         await State.ExecuteAsync();
         State = State.NextState();
     }
-
 }

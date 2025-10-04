@@ -29,8 +29,8 @@ public class ObservableCollection<T> : Collection<T>
     /// </summary>
     protected override void ClearItems()
     {
-        OnCollectionCleared?.Invoke();
         base.ClearItems();
+        OnCollectionCleared?.Invoke();
     }
 
     /// <summary>
@@ -44,8 +44,8 @@ public class ObservableCollection<T> : Collection<T>
     protected override void RemoveItem(int index)
     {
         T removedItem = this[index];
-        OnCollectionRemoved?.Invoke(removedItem);
         base.RemoveItem(index);
+        OnCollectionRemoved?.Invoke(removedItem);
     }
 
     /// <summary>
@@ -57,7 +57,29 @@ public class ObservableCollection<T> : Collection<T>
     /// </summary>
     protected override void InsertItem(int index, T item)
     {
-        OnCollectionInserted?.Invoke(index, item);
         base.InsertItem(index, item);
+        OnCollectionInserted?.Invoke(index, item);
+    }
+
+    /// <summary>
+    /// Invoked when <see cref="Sort()"/> or <see cref="Sort(Comparison{T})"/> or <see cref="Sort(IComparer{T})"/> called
+    /// </summary>
+    public Action OnCollectionSorted;
+    
+    public void Sort() => Sort(Comparer<T>.Default);
+
+    public void Sort(IComparer<T> comparer) => Sort(comparer.Compare);
+    
+    public void Sort(Comparison<T> comparison)
+    {
+        if (comparison == null) throw new ArgumentNullException(nameof(comparison));
+
+        var sortedList = new List<T>(this.Items);
+        if (sortedList.Count < 2) return;
+        sortedList.Sort(comparison);
+
+        for (int i = 0; i < sortedList.Count; i++) this.Items[i] = sortedList[i];
+        
+        OnCollectionSorted?.Invoke();
     }
 }

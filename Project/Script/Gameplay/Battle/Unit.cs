@@ -28,5 +28,5 @@ public partial class Unit
     [ObservableProperty]
     private bool canAct;
 
-    
+    //public BuffDict Buffs { get; private set; }
 }
