@@ -213,6 +213,7 @@ public partial class MergeWindow : UIWindowBase
 
             // TODO: 图片
             name.Text = target.Name;
+            if (name is AutoSize autoSize) autoSize.Fit();
 
             if (maxTargetPartsIdx > idx) return;
             maxTargetPartsIdx++;

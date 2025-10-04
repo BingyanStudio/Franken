@@ -14,6 +14,8 @@ public static class LogTool
 
     public static void Error(string group, string error) => GD.PushError(Wrap(group) + error);
 
+    public static void Message(object message) => GD.Print(message);
+
     public static void Message(string message) => GD.Print(message);
 
     public static void Message(string group, string message) => GD.Print(Wrap(group) + message);

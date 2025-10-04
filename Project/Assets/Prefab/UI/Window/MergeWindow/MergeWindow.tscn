@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=32 format=3 uid="uid://ebspk8418s36"]
 
 [ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/MergeWindow.cs" id="1_ghuo0"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_vjanc"]
@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="15_c1nnl"]
 [ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="16_egti7"]
 [ext_resource type="Shortcut" uid="uid://brc0cserqskst" path="res://Assets/Config/Input/exit.tres" id="16_wrpox"]
+[ext_resource type="Script" uid="uid://dyxc54xbmqpg5" path="res://Script/UI/Widget/AutoSize.cs" id="20_wxdll"]
 
 [sub_resource type="Animation" id="Animation_egti7"]
 length = 0.001
@@ -456,14 +457,16 @@ texture = ExtResource("2_vjanc")
 expand_mode = 1
 
 [node name="Name" type="Label" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
+custom_minimum_size = Vector2(100, 45)
 layout_mode = 2
 size_flags_vertical = 8
 text = "名称"
 label_settings = SubResource("LabelSettings_egti7")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 clip_text = true
-text_overrun_behavior = 1
+script = ExtResource("20_wxdll")
 
 [node name="BgBtn" type="Button" parent="HBoxContainer/EditPanel"]
 visible = false
