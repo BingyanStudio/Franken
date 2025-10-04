@@ -524,42 +524,127 @@ label_settings = SubResource("LabelSettings_aa146")
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DirectStats" type="VBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="LeftMargin" type="MarginContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 4
+
+[node name="LeftStats" type="VBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Content" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/DirectStats"]
+[node name="HpBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats"]
 layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/DirectStats/Content"]
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/HpBar"]
 layout_mode = 2
-text = "血量条："
+text = "Hp："
 label_settings = SubResource("LabelSettings_tt1g2")
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/DirectStats/Content"]
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/HpBar"]
 layout_mode = 2
 text = "114"
 label_settings = SubResource("LabelSettings_tt1g2")
 
-[node name="IndirectStats" type="VBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="DefBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats"]
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Content" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/IndirectStats"]
-layout_mode = 2
-size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/IndirectStats/Content"]
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/DefBar"]
 layout_mode = 2
-text = "命中率："
+text = "Def："
 label_settings = SubResource("LabelSettings_tt1g2")
 horizontal_alignment = 2
 
-[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/IndirectStats/Content"]
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/DefBar"]
+layout_mode = 2
+text = "114"
+label_settings = SubResource("LabelSettings_tt1g2")
+
+[node name="AgiBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/AgiBar"]
+layout_mode = 2
+text = "Agi："
+label_settings = SubResource("LabelSettings_tt1g2")
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/AgiBar"]
+layout_mode = 2
+text = "114"
+label_settings = SubResource("LabelSettings_tt1g2")
+
+[node name="SanBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/SanBar"]
+layout_mode = 2
+text = "San："
+label_settings = SubResource("LabelSettings_tt1g2")
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/LeftMargin/LeftStats/SanBar"]
+layout_mode = 2
+text = "114"
+label_settings = SubResource("LabelSettings_tt1g2")
+
+[node name="RightMargin" type="MarginContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 8
+
+[node name="RightStats" type="VBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CmpBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/CmpBar"]
+layout_mode = 2
+text = "Cmp："
+label_settings = SubResource("LabelSettings_tt1g2")
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/CmpBar"]
+layout_mode = 2
+text = "514"
+label_settings = SubResource("LabelSettings_tt1g2")
+
+[node name="PtiBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/PtiBar"]
+layout_mode = 2
+text = "Pti："
+label_settings = SubResource("LabelSettings_tt1g2")
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/PtiBar"]
+layout_mode = 2
+text = "514"
+label_settings = SubResource("LabelSettings_tt1g2")
+
+[node name="PthBar" type="HBoxContainer" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Key" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/PthBar"]
+layout_mode = 2
+text = "Pth："
+label_settings = SubResource("LabelSettings_tt1g2")
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="HBoxContainer/ViewPanel/StatsPanel/MarginContainer/VBoxContainer/HBoxContainer/RightMargin/RightStats/PthBar"]
 layout_mode = 2
 text = "514"
 label_settings = SubResource("LabelSettings_tt1g2")
@@ -605,46 +690,50 @@ label_settings = SubResource("LabelSettings_aa146")
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 
-[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ActiveTitle" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ActiveTitle" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 text = "主动："
 label_settings = SubResource("LabelSettings_v0b5x")
 
-[node name="ActiveSkills" type="MarginContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ActiveSkills" type="MarginContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 
-[node name="ActiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills"]
+[node name="ActiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer/ActiveSkills"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ActiveSkills/ActiveSkillsContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer/ActiveSkills/ActiveSkillsContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 text = "原神：空月之歌"
 label_settings = SubResource("LabelSettings_kt511")
 autowrap_mode = 1
 
-[node name="PassiveTitle" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="PassiveTitle" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 text = "被动："
 label_settings = SubResource("LabelSettings_v0b5x")
 
-[node name="PassiveSkills" type="MarginContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="PassiveSkills" type="MarginContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 
-[node name="PassiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills"]
+[node name="PassiveSkillsContainer" type="VBoxContainer" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer/PassiveSkills"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/PassiveSkills/PassiveSkillsContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/ViewPanel/SkillPanel/MarginContainer/VBoxContainer/MarginContainer/ScrollContainer/HBoxContainer/PassiveSkills/PassiveSkillsContainer"]
 custom_minimum_size = Vector2(0, 45)
 layout_mode = 2
 text = "崩坏：星穹铁道"

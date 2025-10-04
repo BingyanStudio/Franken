@@ -1,5 +1,4 @@
 using Godot;
-using System.Runtime.CompilerServices;
 
 namespace Franken;
 
@@ -11,7 +10,7 @@ public partial class ActorStats
 {
     #region 上下限字段
     private static readonly string Path = "res://Assets/Config/General/Actor_Config.tres";
-  
+
     static ActorStats()
     {
         var actorConfig = GD.Load<ActorConfig>(Path);
@@ -39,7 +38,7 @@ public partial class ActorStats
 
     public static readonly int MinDef;
     public static readonly int MaxDef;
-    
+
     public static readonly int MinPt;
     public static readonly int MaxPt;
 
@@ -66,13 +65,13 @@ public partial class ActorStats
     /// <summary>
     /// SAN值
     /// </summary>
-    [ObservableClampProperty(minimum:"MinSan", maximum:"MaxSan")] 
+    [ObservableClampProperty(minimum: "MinSan", maximum: "MaxSan")]
     private int san;
 
     /// <summary>
     /// 完整度
     /// </summary>
-    [ObservableClampProperty(minimum:"MinCmp", maximum:"MaxCmp")]
+    [ObservableClampProperty(minimum: "MinCmp", maximum: "MaxCmp")]
     private int cmp;
 
     /// <summary>
@@ -98,7 +97,7 @@ public partial class ActorStats
     /// </summary>
     [ObservableProperty]
     private int atk;
-    
+
     /// <summary>
     /// 防御力
     /// </summary>
@@ -108,7 +107,7 @@ public partial class ActorStats
     /// <summary>
     /// 闪避值
     /// </summary>
-    [ObservableClampProperty(minimum: "MinAgi", maximum: "MaxAgi")] 
+    [ObservableClampProperty(minimum: "MinAgi", maximum: "MaxAgi")]
     private int agi;
 
     #endregion

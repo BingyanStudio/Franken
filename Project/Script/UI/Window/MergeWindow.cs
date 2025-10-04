@@ -29,10 +29,28 @@ public partial class MergeWindow : UIWindowBase
     private BaseButton next;
     [UIRef]
     private Control bagSlots;
+    #region 技能
     [UIRef]
     private Control activeSkillsContainer;
     [UIRef]
     private Control passiveSkillsContainer;
+    #endregion
+    #region 数值
+    [UIRef]
+    private Control hpBar;
+    [UIRef]
+    private Control defBar;
+    [UIRef]
+    private Control agiBar;
+    [UIRef]
+    private Control sanBar;
+    [UIRef]
+    private Control cmpBar;
+    [UIRef]
+    private Control ptiBar;
+    [UIRef]
+    private Control pthBar;
+    #endregion
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
@@ -83,6 +101,14 @@ public partial class MergeWindow : UIWindowBase
                 zoom.ToScale(Vector2.One);
 
                 RefreshEditSlotFocus(oldValue);
+
+                RefreshStats(MergeUtil.CalculateStats(currentParts.
+                    Select(part => ActorBodyPartStats.FromCSV(part.ID))));
+                RefreshSkills(
+                    currentParts.SelectMany(part => part.Active)
+                        .Distinct().Select(CSV.ActiveConf.Get).ToArray(),
+                    currentParts.SelectMany(part => part.Passive)
+                        .Distinct().Select(CSV.PassiveConf.Get).ToArray());
             }
             else
             {
@@ -131,6 +157,7 @@ public partial class MergeWindow : UIWindowBase
         base.Setup();
 
         ResetSkillPanel();
+        RefreshStats(new ActorStats());
 
         Bind();
 
@@ -168,6 +195,7 @@ public partial class MergeWindow : UIWindowBase
 
     private void RefreshEditSlotFocus(int idx) => partSlots.GetChild(idx).GetNode<BaseButton>("Button").GrabFocus();
 
+    // 不要被代码提示骗了，它不懂源生
     private bool CanZoom(int value) => !zooming;
 
     private void InitBag(IEnumerable<CSV.ActorBodyPart> data)
@@ -189,55 +217,82 @@ public partial class MergeWindow : UIWindowBase
             if (maxTargetPartsIdx > idx) return;
             maxTargetPartsIdx++;
 
-            btn.FocusEntered += () =>
-            {
-                var target = targetParts[idx];
-
-                // 技能
-                activeSkillsContainer.ReserveChildren(target.Active.Count, (idx, trans) =>
-                {
-                    var conf = CSV.ActiveConf.Get(target.Active[idx]);
-                    if (conf == null)
-                    {
-                        LogTool.Error("CSV", $"ActiveConf表中找不到主键{target.Active[idx]}");
-                        return;
-                    }
-
-                    if (trans is not Label label) return;
-
-                    label.Text = $"{conf.Name}：{conf.Desc}";
-                });
-
-                passiveSkillsContainer.ReserveChildren(target.Passive.Count, (idx, trans) =>
-                {
-                    var conf = CSV.PassiveConf.Get(target.Passive[idx]);
-                    if (conf == null)
-                    {
-                        LogTool.Error("CSV", $"PassiveConf表中找不到主键{target.Passive[idx]}");
-                        return;
-                    }
-
-                    if (trans is not Label label) return;
-
-                    label.Text = $"{conf.Name}：{conf.Desc}";
-                });
-
-                // TODO: 数值
-
-                var cache = editCache[CurrentCompSlotIdx];
-                if (cache == target) return;
-
-                if (cache != null) currentParts.Remove(cache);
-                currentParts.Add(editCache[CurrentCompSlotIdx] = target);
-            };
-
+            btn.FocusEntered += () => SelectBagItem(idx);
             btn.FocusExited += ResetSkillPanel;
         });
+    }
+
+    private void SelectBagItem(int idx)
+    {
+        var target = targetParts[idx];
+
+        RefreshStats(ActorBodyPartStats.FromCSV(target.ID));
+        RefreshSkills(
+            target.Active.Select(CSV.ActiveConf.Get).ToArray(),
+            target.Passive.Select(CSV.PassiveConf.Get).ToArray());
+
+        var cache = editCache[CurrentCompSlotIdx];
+        if (cache == target) return;
+
+        if (cache != null) currentParts.Remove(cache);
+        currentParts.Add(editCache[CurrentCompSlotIdx] = target);
     }
 
     private void ResetSkillPanel()
     {
         activeSkillsContainer.ReserveChildren(0, null);
         passiveSkillsContainer.ReserveChildren(0, null);
+    }
+
+    private static void SetValue(Control bar, string value)
+    {
+        if (bar.GetNode("Value") is Label label) label.Text = value;
+    }
+
+    private void RefreshSkills(CSV.ActiveConf[] actives, CSV.PassiveConf[] passives)
+    {
+        activeSkillsContainer.ReserveChildren(actives.Length, (idx, trans) =>
+        {
+            if (trans is not Label label) return;
+
+            var conf = actives[idx];
+            label.Text = $"{conf.Name}：{conf.Desc}";
+        });
+        passiveSkillsContainer.ReserveChildren(passives.Length, (idx, trans) =>
+        {
+            if (trans is not Label label) return;
+
+            var conf = passives[idx];
+            label.Text = $"{conf.Name}：{conf.Desc}";
+        });
+    }
+
+    private void RefreshStats(ActorBodyPartStats stats)
+    {
+        static string Number2String(Number number) => number.Type switch
+        {
+            Number.ValueType.Int => ((int)number).ToString(),
+            Number.ValueType.Float => ((int)((float)number * 100)).ToString() + "%",
+            _ => "0"
+        };
+
+        SetValue(hpBar, Number2String(stats.Hp));
+        SetValue(defBar, Number2String(stats.Def));
+        SetValue(agiBar, Number2String(stats.Agi));
+        SetValue(sanBar, Number2String(stats.San));
+        SetValue(cmpBar, Number2String(stats.Cmp));
+        SetValue(ptiBar, Number2String(stats.Pti));
+        SetValue(pthBar, Number2String(stats.Pth));
+    }
+
+    private void RefreshStats(ActorStats stats)
+    {
+        SetValue(hpBar, stats.Hp.ToString());
+        SetValue(defBar, stats.Def.ToString());
+        SetValue(agiBar, stats.Agi.ToString());
+        SetValue(sanBar, stats.San.ToString());
+        SetValue(cmpBar, stats.Cmp.ToString());
+        SetValue(ptiBar, stats.Pti.ToString());
+        SetValue(pthBar, stats.Pth.ToString());
     }
 }

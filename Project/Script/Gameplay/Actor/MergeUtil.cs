@@ -31,7 +31,7 @@ public static class MergeUtil
     /// <summary>
     /// 统计所有加算乘算属性
     /// </summary>
-    private static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
+    public static ActorStats CalculateStats(IEnumerable<ActorBodyPartStats> stats)
     {
         int addHp = 0, addSan = 0, addCmp = 0, addPti = 0, addPth = 0, addAtk = 0, addDef = 0, addAgi = 0;
         float mulHp = 0, mulSan = 0, mulCmp = 0, mulPti = 0, mulPth = 0, mulAtk = 0, mulDef = 0, mulAgi = 0;
