@@ -1,0 +1,3 @@
+[submodule "Project/Plugin/godotool"]
+	path = Project/Plugin/godotool
+	url = git@github.com:BingyanStudio/godotool.git
