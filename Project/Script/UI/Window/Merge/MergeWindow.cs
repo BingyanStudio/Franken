@@ -155,6 +155,8 @@ public partial class MergeWindow : UIWindowBase, IRef
     {
         base.Setup();
 
+        GetRef();
+
         ResetSkillPanel();
         RefreshStats(new ActorStats());
 
