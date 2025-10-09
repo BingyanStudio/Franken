@@ -9,6 +9,8 @@ namespace Franken.SourceGenerator;
 
 internal static class SymbolExtensions
 {
+    internal static bool Implements(this INamedTypeSymbol symbol, string name) => symbol.AllInterfaces.Any(i => i.Name == name);
+
     internal static bool InheritsFrom(this INamedTypeSymbol symbol, string name)
     {
         if (symbol != null) symbol = symbol.BaseType;

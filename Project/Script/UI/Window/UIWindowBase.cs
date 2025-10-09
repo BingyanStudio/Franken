@@ -4,6 +4,11 @@ using System.Threading.Tasks;
 
 namespace Franken;
 
+public interface IRef
+{
+    void GetRef();
+}
+
 public abstract partial class UIWindowBase : Control
 {
     [Export]

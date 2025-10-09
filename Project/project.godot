@@ -30,6 +30,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Project"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gm_tools/plugin.cfg")
+
 [input]
 
 debug={

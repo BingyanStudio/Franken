@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://4y4kijg6nq0x"]
+
+[ext_resource type="Script" uid="uid://caw56mxke5gmv" path="res://addons/widgets/Foldout.cs" id="1_4ktki"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_omeop"]
+bg_color = Color(0, 0, 1, 0.2)
+border_width_bottom = 1
+border_color = Color(0, 0, 1, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ktki"]
+bg_color = Color(0, 1, 1, 0.2)
+border_width_bottom = 1
+border_color = Color(0, 1, 1, 0.8)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+
+[node name="Foldout" type="VBoxContainer"]
+script = ExtResource("1_4ktki")
+
+[node name="Title" type="Button" parent="."]
+custom_minimum_size = Vector2(40, 25)
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_styles/pressed = SubResource("StyleBoxFlat_omeop")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4ktki")
+toggle_mode = true
+text = "标题"
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2

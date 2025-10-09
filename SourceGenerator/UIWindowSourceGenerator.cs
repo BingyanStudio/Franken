@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.CSharp;
 namespace Franken.SourceGenerator;
 
 [Generator]
-public class UIWindowSourceGenerator : IIncrementalGenerator
+public class IRefSourceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -22,7 +22,7 @@ public class UIWindowSourceGenerator : IIncrementalGenerator
                     return new { ClassDeclaration = classDeclaration, ClassSymbol = classSymbol };
                 })
             .Where(t => t.ClassDeclaration is not null
-                     && t.ClassSymbol.InheritsFrom("UIWindowBase")
+                     && t.ClassSymbol.Implements("IRef")
                      && t.ClassDeclaration.IsPartialClass())
             .Collect();
 
@@ -55,9 +55,8 @@ using System.Collections.Generic;
 {starting}
 public partial class {className}
 {{
-    protected override void GetRef()
+    public void GetRef()
     {{
-        base.GetRef();
         var children = this.GetAllChildren().ToLookup(child => child.Name);");
         foreach (var field in classDeclaration.ChildNodes()
                                               .OfType<FieldDeclarationSyntax>()

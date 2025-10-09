@@ -7,7 +7,7 @@ using System.Linq;
 namespace Franken;
 
 [ObservableObject]
-public partial class MergeWindow : UIWindowBase
+public partial class MergeWindow : UIWindowBase, IRef
 {
     [UIRef]
     private Control partSlots;
@@ -145,10 +145,9 @@ public partial class MergeWindow : UIWindowBase
         Init();
 
         // 临时背包数据
-        CSV.LoadAll();
         CSV.ActorBodyPart.Data.ForEach(data =>
         {
-            for (int i = 0; i < 114; i++) Parts.Add(data);
+            for (int i = 0; i < 11; i++) Parts.Add(data);
         });
     }
 

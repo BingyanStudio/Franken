@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg4cgdf5r40cl"]
+
+[ext_resource type="Script" uid="uid://crusq0f7dqf0p" path="res://addons/widgets/CustomButton.cs" id="1_3sl4r"]
+
+[node name="CustomButton" type="Button"]
+text = "按钮"
+script = ExtResource("1_3sl4r")

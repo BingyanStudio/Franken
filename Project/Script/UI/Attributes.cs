@@ -8,7 +8,7 @@ namespace Franken;
 /// [UIRef]
 /// private GameObject itsMyGO = 0;
 /// </code>
-/// 的代码，在<see cref="UIWindowBase.GetRef"/>中生成
+/// 的代码，在<see cref="IRef.GetRef"/>中生成
 /// <code>itsMyGO = children["ItsMyGO"].First() as GameObject;</code>
 /// 由于严格通过名称索引，请务必保证名称唯一且正确！！！！！
 /// </summary>
