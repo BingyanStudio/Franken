@@ -498,6 +498,7 @@ layout_mode = 2
 texture_normal = ExtResource("14_t54kn")
 texture_pressed = ExtResource("15_c1nnl")
 texture_hover = ExtResource("16_egti7")
+texture_disabled = ExtResource("15_c1nnl")
 texture_focused = ExtResource("16_egti7")
 ignore_texture_size = true
 stretch_mode = 0

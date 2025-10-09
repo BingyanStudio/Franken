@@ -54,7 +54,7 @@ public class ObservableSourceGenerator : IIncrementalGenerator
 
         sb.Append($@"
 {starting}
-public partial class {className}
+public partial class {className}{(classSymbol.IsGenericType ? "<T>" : string.Empty)}
 {{");
         foreach (var field in classDeclaration.ChildNodes()
                                               .OfType<FieldDeclarationSyntax>()

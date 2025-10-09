@@ -57,7 +57,7 @@ public partial class MergeWindow : UIWindowBase, IRef
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
-    private ObservableCollection<CSV.ActorBodyPart> currentParts = [];
+    private ObservableCollection<ActorBodyPartSlot> currentParts = [];
 
     private bool zooming = false;
     [Export]
@@ -69,13 +69,13 @@ public partial class MergeWindow : UIWindowBase, IRef
     private CSV.ActorBodyPart.Component CurrentComp =>
         CurrentCompSlotIdx < 0 ? CSV.ActorBodyPart.Component.None : compList[CurrentCompSlotIdx];
 
-    private CSV.ActorBodyPart[] targetParts;
+    private ActorBodyPartSlot[] targetParts;
     private int maxTargetPartsIdx;
 
-    private CSV.ActorBodyPart[] editCache = new CSV.ActorBodyPart[7];
+    private ActorBodyPartSlot[] editCache = new ActorBodyPartSlot[7];
 
     /// <summary>临时数据源</summary>
-    public List<CSV.ActorBodyPart> Parts { get; private set; } = [];
+    public List<ActorBodyPartSlot> Parts { get; private set; } = [];
 
     private void Bind()
     {
@@ -105,13 +105,7 @@ public partial class MergeWindow : UIWindowBase, IRef
 
                 RefreshEditSlotFocus(oldValue);
 
-                RefreshStats(MergeUtil.CalculateStats(currentParts.
-                    Select(part => ActorBodyPartStats.FromCSV(part.ID))));
-                RefreshSkills(
-                    currentParts.SelectMany(part => part.Active)
-                        .Distinct().Select(CSV.ActiveConf.Get).ToArray(),
-                    currentParts.SelectMany(part => part.Passive)
-                        .Distinct().Select(CSV.PassiveConf.Get).ToArray());
+                RefreshSkillsAndStats();
             }
             else
             {
@@ -145,7 +139,7 @@ public partial class MergeWindow : UIWindowBase, IRef
         // 临时背包数据
         CSV.ActorBodyPart.Data.ForEach(data =>
         {
-            for (int i = 0; i < 11; i++) Parts.Add(data);
+            for (int i = 0; i < 11; i++) Parts.Add(new(data));
         });
 
         base.Setup();
@@ -169,6 +163,13 @@ public partial class MergeWindow : UIWindowBase, IRef
             slot.FocusNeighborTop = slot.FocusNeighborBottom = slot.FocusNeighborLeft = slot.FocusNeighborRight = null;
 
             btn.Pressed += () => CurrentCompSlotIdx = idx;
+
+            btn.MouseEntered += () => FocusOnItem(editCache[idx]);
+            btn.MouseExited += RefreshSkillsAndStats;
+
+            btn.FocusEntered += () => FocusOnItem(editCache[idx]);
+            btn.FocusExited += RefreshSkillsAndStats;
+
             compList.Add(Enum.Parse<CSV.ActorBodyPart.Component>(slot.GetMeta("Component", "None").AsString()));
         });
     }
@@ -178,7 +179,7 @@ public partial class MergeWindow : UIWindowBase, IRef
         base.Init();
 
         CurrentCompSlotIdx = -1;
-        editCache = new CSV.ActorBodyPart[7];
+        editCache = new ActorBodyPartSlot[7];
         currentParts = [];
         currentParts.CollectionChanged += (sender, args) =>
         {
@@ -194,22 +195,20 @@ public partial class MergeWindow : UIWindowBase, IRef
     // 不要被代码提示骗了，它不懂源生
     private bool CanZoom(int value) => !zooming;
 
-    private void InitBag(IEnumerable<CSV.ActorBodyPart> data)
+    private void InitBag(IEnumerable<ActorBodyPartSlot> data)
     {
-        targetParts = data.Where(d => d.Comp.HasFlag(CurrentComp)).ToArray();
+        targetParts = data.Where(d => d.Item.Comp.HasFlag(CurrentComp)).ToArray();
         bagSlots.ReserveChildren(targetParts.Length, (idx, slot) =>
         {
             if (slot is not BaseButton btn) return;
 
-            var children = slot.GetAllChildren().ToDictionary(child => child.Name);
-            var img = children["Img"] as TextureRect;
-            var name = children["Name"] as Label;
+            var part = targetParts[idx];
+            SetSlot(slot, part);
 
-            var target = targetParts[idx];
-
-            // TODO: 图片
-            name.Text = target.Name;
-            if (name is AutoSize autoSize) autoSize.Fit();
+            part.OnSelectedChanged = (_, selected) => btn.Disabled = selected && 
+                editCache[CurrentCompSlotIdx] != null && editCache[CurrentCompSlotIdx] != part;
+            btn.Disabled = part.Selected && editCache[CurrentCompSlotIdx] != part;
+            if (part.Selected && editCache[currentCompSlotIdx] == part) btn.GrabFocus();
 
             if (maxTargetPartsIdx > idx) return;
             maxTargetPartsIdx++;
@@ -217,30 +216,63 @@ public partial class MergeWindow : UIWindowBase, IRef
             btn.Pressed += () => SelectBagItem(idx);
 
             btn.MouseEntered += () => FocusOnBagItem(idx);
-            btn.MouseExited += ResetSkillPanel;
+            btn.MouseExited += RefreshSkillsAndStats;
 
             btn.FocusEntered += () => FocusOnBagItem(idx);
-            btn.FocusExited += ResetSkillPanel;
+            btn.FocusExited += RefreshSkillsAndStats;
         });
     }
 
     private void SelectBagItem(int idx)
     {
-        var target = targetParts[idx];
-
+        var part = targetParts[idx];
         var cache = editCache[CurrentCompSlotIdx];
-        if (cache != null) currentParts.Remove(cache);
-        currentParts.Add(editCache[CurrentCompSlotIdx] = target);
+        var slot = partSlots.GetChild(CurrentCompSlotIdx) as Control;
+
+        if (cache != null)
+        {
+            cache.Selected = false;
+            currentParts.Remove(cache);
+
+            if (cache == part)
+            {
+                SetSlot(slot, editCache[CurrentCompSlotIdx] = null);
+                return;
+            }
+        }
+
+        part.Selected = true;
+        currentParts.Add(editCache[CurrentCompSlotIdx] = part);
+        SetSlot(slot, part);
     }
 
-    private void FocusOnBagItem(int idx)
+    private static void SetSlot(Control slot, ActorBodyPartSlot part)
     {
-        var target = targetParts[idx];
+        var children = slot.GetAllChildren().ToDictionary(child => child.Name);
+        var img = children["Img"] as TextureRect;
+        var name = children["Name"] as Label;
 
-        RefreshStats(ActorBodyPartStats.FromCSV(target.ID));
+        if (part == null)
+        {
+            name.Text = string.Empty;
+            return;
+        }
+
+        // TODO: 图片
+        name.Text = part.Name;
+        if (name is AutoSize autoSize) autoSize.Fit();
+    }
+
+    private void FocusOnBagItem(int idx) => FocusOnItem(targetParts[idx]);
+
+    private void FocusOnItem(ActorBodyPartSlot part)
+    {
+        if (part == null) return;
+
+        RefreshStats(ActorBodyPartStats.FromCSV(part.Item.ID));
         RefreshSkills(
-            target.Active.Select(CSV.ActiveConf.Get).ToArray(),
-            target.Passive.Select(CSV.PassiveConf.Get).ToArray());
+            part.Item.Active.Select(CSV.ActiveConf.Get).ToArray(),
+            part.Item.Passive.Select(CSV.PassiveConf.Get).ToArray());
     }
 
     private void ResetSkillPanel()
@@ -299,5 +331,16 @@ public partial class MergeWindow : UIWindowBase, IRef
         SetValue(cmpBar, stats.Cmp.ToString());
         SetValue(ptiBar, stats.Pti.ToString());
         SetValue(pthBar, stats.Pth.ToString());
+    }
+
+    private void RefreshSkillsAndStats()
+    {
+        RefreshStats(MergeUtil.CalculateStats(currentParts.
+            Select(part => ActorBodyPartStats.FromCSV(part.Item.ID))));
+        RefreshSkills(
+            currentParts.SelectMany(part => part.Item.Active)
+                .Distinct().Select(CSV.ActiveConf.Get).ToArray(),
+            currentParts.SelectMany(part => part.Item.Passive)
+                .Distinct().Select(CSV.PassiveConf.Get).ToArray());
     }
 }
