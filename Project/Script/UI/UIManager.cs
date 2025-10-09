@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Franken;
 
-public partial class UIManager : Singleton<UIManager>
+public partial class UIManager : Singleton<UIManager>, IManager
 {
     private const string PATH = "res://Assets/Prefab/UI/Window/";
 
@@ -15,6 +15,10 @@ public partial class UIManager : Singleton<UIManager>
 
     private readonly Dictionary<Type, UIWindowBase> activeWindows = [];
     private readonly Dictionary<Type, UIWindowBase> cachedWindows = [];
+
+    public void Init()
+    {
+    }
 
     private static T LoadWindow<T>() where T : UIWindowBase
     {
@@ -73,4 +77,6 @@ public partial class UIManager : Singleton<UIManager>
             cachedWindows.Add(typeof(T), window);
         }
     }
+
+    public T FindWindow<T>() where T : UIWindowBase => activeWindows.GetValueOrDefault(typeof(T)) as T;
 }

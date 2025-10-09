@@ -1,4 +1,5 @@
 using Godot;
+using Godotool;
 
 namespace Franken;
 
@@ -15,7 +16,7 @@ public partial class ActorStats
     {
         var actorConfig = GD.Load<ActorConfig>(Path);
 
-        if (actorConfig == null) LogTool.Error($"铸币吧没创建对{Path}");
+        if (actorConfig == null) Log.E($"铸币吧没创建对{Path}");
 
         MinSan = actorConfig.MinSan;
         MaxSan = actorConfig.MaxSan;

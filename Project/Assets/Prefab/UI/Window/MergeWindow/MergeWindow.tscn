@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://ebspk8418s36"]
+[gd_scene load_steps=35 format=3 uid="uid://ebspk8418s36"]
 
 [ext_resource type="Script" uid="uid://bq2wpja4psf5s" path="res://Script/UI/Window/Merge/MergeWindow.cs" id="1_ghuo0"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="2_vjanc"]
@@ -26,7 +26,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/path = NodePath("EditingPanels/BagBar:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -38,7 +38,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Bag:position:y")
+tracks/1/path = NodePath("EditingPanels/Bag:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -59,7 +59,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/path = NodePath("EditingPanels/BagBar:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -71,7 +71,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Bag:position:y")
+tracks/1/path = NodePath("EditingPanels/Bag:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -87,7 +87,7 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("TopBar:position:y")
+tracks/0/path = NodePath("EditingPanels/BagBar:position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -99,7 +99,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Bag:position:y")
+tracks/1/path = NodePath("EditingPanels/Bag:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -114,6 +114,12 @@ _data = {
 &"Hide": SubResource("Animation_wxdll"),
 &"Show": SubResource("Animation_xg5mm")
 }
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wxdll"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xg5mm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ob28"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_p7xoj"]
 font_size = 48
@@ -293,26 +299,13 @@ anchor_bottom = 0.3
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel"]
-custom_minimum_size = Vector2(112, 64)
-layout_mode = 0
-offset_right = 112.0
-offset_bottom = 64.0
-texture_normal = ExtResource("7_jvbkb")
-texture_pressed = ExtResource("8_i5ag5")
-texture_hover = ExtResource("9_xscx7")
-ignore_texture_size = true
-stretch_mode = 0
-
 [node name="TopBar" type="Control" parent="HBoxContainer/EditPanel"]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 0.1
-offset_top = -108.0
-offset_bottom = -108.0
 grow_horizontal = 2
 
-[node name="TopBarBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/TopBar"]
+[node name="Bg" type="NinePatchRect" parent="HBoxContainer/EditPanel/TopBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -325,49 +318,7 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/EditPanel/TopBar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Prev" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 4
-shortcut = ExtResource("5_egti7")
-texture_normal = ExtResource("5_iha1v")
-texture_pressed = ExtResource("6_xscx7")
-texture_hover = ExtResource("7_p7xoj")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="Part" type="Label" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
-custom_minimum_size = Vector2(144, 72)
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_stretch_ratio = 0.0
-text = "部位"
-label_settings = SubResource("LabelSettings_p7xoj")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Next" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar/HBoxContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 4
-shortcut = ExtResource("9_wrpox")
-texture_normal = ExtResource("6_qkr73")
-texture_pressed = ExtResource("9_cl2e7")
-texture_hover = ExtResource("10_t54kn")
-ignore_texture_size = true
-stretch_mode = 0
-
-[node name="TopBarExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar"]
+[node name="ExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel/TopBar"]
 custom_minimum_size = Vector2(84, 48)
 layout_mode = 1
 anchors_preset = 4
@@ -385,17 +336,46 @@ texture_hover = ExtResource("9_xscx7")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="Bag" type="Control" parent="HBoxContainer/EditPanel"]
+[node name="InputActorName" type="LineEdit" parent="HBoxContainer/EditPanel/TopBar"]
 layout_mode = 1
-anchor_top = 0.3
+anchors_preset = -1
+anchor_left = 0.3
+anchor_right = 0.7
+anchor_bottom = 1.0
+offset_left = -34.2813
+offset_right = 34.2813
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wxdll")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_xg5mm")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8ob28")
+placeholder_text = "请输入名称"
+alignment = 1
+max_length = 12
+
+[node name="EditingPanels" type="Control" parent="HBoxContainer/EditPanel"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 864.0
-offset_bottom = 864.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="BagBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/Bag"]
+[node name="BagBar" type="Control" parent="HBoxContainer/EditPanel/EditingPanels"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.1
+offset_top = -108.0
+offset_bottom = -108.0
+grow_horizontal = 2
+
+[node name="BagBarBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/EditingPanels/BagBar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -408,7 +388,90 @@ patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/Bag"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/EditPanel/EditingPanels/BagBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Prev" type="TextureButton" parent="HBoxContainer/EditPanel/EditingPanels/BagBar/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+shortcut = ExtResource("5_egti7")
+texture_normal = ExtResource("5_iha1v")
+texture_pressed = ExtResource("6_xscx7")
+texture_hover = ExtResource("7_p7xoj")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Part" type="Label" parent="HBoxContainer/EditPanel/EditingPanels/BagBar/HBoxContainer"]
+custom_minimum_size = Vector2(144, 72)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.0
+text = "部位"
+label_settings = SubResource("LabelSettings_p7xoj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Next" type="TextureButton" parent="HBoxContainer/EditPanel/EditingPanels/BagBar/HBoxContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+shortcut = ExtResource("9_wrpox")
+texture_normal = ExtResource("6_qkr73")
+texture_pressed = ExtResource("9_cl2e7")
+texture_hover = ExtResource("10_t54kn")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BagBarExitBtn" type="TextureButton" parent="HBoxContainer/EditPanel/EditingPanels/BagBar"]
+custom_minimum_size = Vector2(84, 48)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -24.0
+offset_right = 108.0
+offset_bottom = 24.0
+grow_vertical = 2
+shortcut = ExtResource("16_wrpox")
+texture_normal = ExtResource("7_jvbkb")
+texture_pressed = ExtResource("8_i5ag5")
+texture_hover = ExtResource("9_xscx7")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="Bag" type="Control" parent="HBoxContainer/EditPanel/EditingPanels"]
+layout_mode = 1
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 864.0
+offset_bottom = 864.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BagBg" type="NinePatchRect" parent="HBoxContainer/EditPanel/EditingPanels/Bag"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wc31x")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/EditingPanels/Bag"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -420,16 +483,16 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer"]
 layout_mode = 2
 
-[node name="BagSlots" type="HFlowContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer"]
+[node name="BagSlots" type="HFlowContainer" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/h_separation = 1
 theme_override_constants/v_separation = 1
 
-[node name="BagSlot" type="TextureButton" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots"]
+[node name="BagSlot" type="TextureButton" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer/ScrollContainer/BagSlots"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 texture_normal = ExtResource("14_t54kn")
@@ -439,7 +502,7 @@ texture_focused = ExtResource("16_egti7")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -451,12 +514,12 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Img" type="TextureRect" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
+[node name="Img" type="TextureRect" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("2_vjanc")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="HBoxContainer/EditPanel/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
+[node name="Name" type="Label" parent="HBoxContainer/EditPanel/EditingPanels/Bag/MarginContainer/ScrollContainer/BagSlots/BagSlot/MarginContainer"]
 custom_minimum_size = Vector2(100, 45)
 layout_mode = 2
 size_flags_vertical = 8

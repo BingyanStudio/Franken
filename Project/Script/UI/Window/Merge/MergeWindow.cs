@@ -1,4 +1,5 @@
 using Godot;
+using Godotool;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,7 @@ public partial class MergeWindow : UIWindowBase, IRef
     [UIRef]
     private BaseButton bgBtn;
     [UIRef]
-    private BaseButton topBarExitBtn;
+    private BaseButton bagBarExitBtn;
     [UIRef]
     private Label part;
     [UIRef]
@@ -51,6 +52,8 @@ public partial class MergeWindow : UIWindowBase, IRef
     [UIRef]
     private Control pthBar;
     #endregion
+    [UIRef]
+    private LineEdit inputActorName;
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
@@ -129,7 +132,7 @@ public partial class MergeWindow : UIWindowBase, IRef
 
         void UnselectComp() => CurrentCompSlotIdx = -1;
         bgBtn.Pressed += UnselectComp;
-        topBarExitBtn.Pressed += UnselectComp;
+        bagBarExitBtn.Pressed += UnselectComp;
 
         void ChangeComp(int offset) =>
             CurrentCompSlotIdx = (compList.Count + CurrentCompSlotIdx + offset) % compList.Count;
@@ -137,22 +140,14 @@ public partial class MergeWindow : UIWindowBase, IRef
         next.Pressed += () => ChangeComp(1);
     }
 
-    public override void _Ready()
+    public override void Setup()
     {
-        base._Ready();
-
-        Setup();
-        Init();
-
         // 临时背包数据
         CSV.ActorBodyPart.Data.ForEach(data =>
         {
             for (int i = 0; i < 11; i++) Parts.Add(data);
         });
-    }
 
-    public override void Setup()
-    {
         base.Setup();
 
         GetRef();
@@ -219,7 +214,12 @@ public partial class MergeWindow : UIWindowBase, IRef
             if (maxTargetPartsIdx > idx) return;
             maxTargetPartsIdx++;
 
-            btn.FocusEntered += () => SelectBagItem(idx);
+            btn.Pressed += () => SelectBagItem(idx);
+
+            btn.MouseEntered += () => FocusOnBagItem(idx);
+            btn.MouseExited += ResetSkillPanel;
+
+            btn.FocusEntered += () => FocusOnBagItem(idx);
             btn.FocusExited += ResetSkillPanel;
         });
     }
@@ -228,16 +228,19 @@ public partial class MergeWindow : UIWindowBase, IRef
     {
         var target = targetParts[idx];
 
+        var cache = editCache[CurrentCompSlotIdx];
+        if (cache != null) currentParts.Remove(cache);
+        currentParts.Add(editCache[CurrentCompSlotIdx] = target);
+    }
+
+    private void FocusOnBagItem(int idx)
+    {
+        var target = targetParts[idx];
+
         RefreshStats(ActorBodyPartStats.FromCSV(target.ID));
         RefreshSkills(
             target.Active.Select(CSV.ActiveConf.Get).ToArray(),
             target.Passive.Select(CSV.PassiveConf.Get).ToArray());
-
-        var cache = editCache[CurrentCompSlotIdx];
-        if (cache == target) return;
-
-        if (cache != null) currentParts.Remove(cache);
-        currentParts.Add(editCache[CurrentCompSlotIdx] = target);
     }
 
     private void ResetSkillPanel()

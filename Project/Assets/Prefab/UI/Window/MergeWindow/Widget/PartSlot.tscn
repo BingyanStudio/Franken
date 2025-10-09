@@ -1,9 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://b2c0rd6h7k5mh"]
+[gd_scene load_steps=7 format=3 uid="uid://b2c0rd6h7k5mh"]
 
 [ext_resource type="Texture2D" uid="uid://em524xgn6nds" path="res://Assets/Art/Texture/UI/slot_normal.png" id="1_alor8"]
 [ext_resource type="Texture2D" uid="uid://dpthksy2kx52f" path="res://Assets/Art/Texture/UI/slot_pressed.png" id="2_s70s8"]
 [ext_resource type="Texture2D" uid="uid://rapj733rss5s" path="res://Assets/Art/Texture/UI/slot_hover.png" id="2_spy2o"]
 [ext_resource type="Texture2D" uid="uid://sameqkpj87mg" path="res://icon.svg" id="3_i6geq"]
+[ext_resource type="Script" uid="uid://dyxc54xbmqpg5" path="res://Script/UI/Widget/AutoSize.cs" id="5_d6yvt"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qrxt5"]
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
 
 [node name="PartSlot" type="Control"]
 layout_mode = 3
@@ -38,7 +44,18 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Content" type="TextureRect" parent="Button/MarginContainer"]
+[node name="Img" type="TextureRect" parent="Button/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("3_i6geq")
 expand_mode = 1
+
+[node name="Name" type="Label" parent="Button/MarginContainer"]
+custom_minimum_size = Vector2(80, 45)
+layout_mode = 2
+size_flags_vertical = 8
+label_settings = SubResource("LabelSettings_qrxt5")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+clip_text = true
+script = ExtResource("5_d6yvt")

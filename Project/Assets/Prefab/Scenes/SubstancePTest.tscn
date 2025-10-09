@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlssxxvlyr4n6"]
+
+[ext_resource type="Script" uid="uid://dkwkjfh1p2j1r" path="res://Script/Gameplay/GameManager.cs" id="1_cny8u"]
+[ext_resource type="Script" uid="uid://cnc4vrpot7xb7" path="res://Script/Test/SubstancePTest.cs" id="1_uhs0w"]
+
+[node name="SubstancePScene" type="Node"]
+script = ExtResource("1_uhs0w")
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_cny8u")
+managers = PackedStringArray("TransitionManager", "UIManager")

@@ -29,7 +29,7 @@ public class Transition
         {
             OnEnd?.Invoke();
             timer = time;
-            TransitionExecutor.Unregister(this);
+            TransitionManager.Instance.Unregister(this);
         }
         Process(ease(timer / time) - ease(record));
     }
@@ -57,14 +57,14 @@ public class Transition
         {
             playing = true;
             Init();
-            TransitionExecutor.Register(this);
+            TransitionManager.Instance.Register(this);
         }
         return this;
     }
 
     public void Drop()
     {
-        TransitionExecutor.Unregister(this);
+        TransitionManager.Instance.Unregister(this);
         OnDrop?.Invoke();
     }
 

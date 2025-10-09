@@ -31,7 +31,6 @@ public partial class GMTools : EditorPlugin
 
 		btnAddItem.Pressed += () =>
 		{
-			LogTool.Message(111);
 		};
 	}
 

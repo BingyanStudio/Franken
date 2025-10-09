@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Godotool;
 
 namespace Franken;
 
@@ -53,13 +54,13 @@ public readonly struct Number
 
     public static implicit operator int(Number u)
     {
-        if (u.type != ValueType.Int) LogTool.Error("DataStruct", $"当前Union不是int而是{u.type}！");
+        if (u.type != ValueType.Int) Log.E("DataStruct", $"当前Union不是int而是{u.type}！");
         return u.i;
     }
 
     public static implicit operator float(Number u)
     {
-        if (u.type != ValueType.Float) LogTool.Error("DataStruct", $"当前Union不是float而是{u.type}！");
+        if (u.type != ValueType.Float) Log.E("DataStruct", $"当前Union不是float而是{u.type}！");
         return u.f;
     }
 
