@@ -1,6 +1,7 @@
 #if TOOLS
 using Godot;
 using Godotool;
+using System.Linq;
 
 namespace Franken;
 
@@ -9,17 +10,16 @@ public partial class GMTools : EditorPlugin
 {
     private EditorWindow window;
 
-    private Foldout archive;
+    private Foldout menuArchive;
 
-    private Foldout management;
+    private Foldout menuManagement;
 
-    private LineInput inputDataIdx;
-    private CustomButton btnSetDataIdx;
+    private LinePopup popupDataIdx;
     private CustomButton btnDelDataIdx;
 
-    private Foldout item;
+    private Foldout menuItem;
 
-    private LineInput inputItemId;
+    private LinePopup popupItemId;
     private LineInput inputItemCnt;
     private CustomButton btnAddItem;
 
@@ -28,20 +28,19 @@ public partial class GMTools : EditorPlugin
         window = AddonsUtil.CreateWidget<EditorWindow>().SetName("GMTools");
         AddControlToDock(DockSlot.RightUl, window);
 
-        archive = window.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("存档"));
+        menuArchive = window.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("存档"));
 
-        management = archive.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("管理"));
+        menuManagement = menuArchive.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("管理"));
 
-        inputDataIdx = management.AddContent(AddonsUtil.CreateWidget<LineInput>().SetLabel("存档index：").SetInput($"{Archive.Current}"));
-        btnSetDataIdx = management.AddContent(AddonsUtil.CreateWidget<CustomButton>().SetLabel("定位目标存档").SetPressed(OnSetDataIdx));
-        btnDelDataIdx = management.AddContent(AddonsUtil.CreateWidget<CustomButton>().SetLabel("删除目标存档").SetPressed(OnDelDataIdx));
+        popupDataIdx = menuManagement.AddContent(AddonsUtil.CreateWidget<LinePopup>().SetLabel("存档index：").OnSelected(idx => Archive.Current = idx.ToInt()).AddData(IEnumerableUtil.Range(0, Archive.DATA_COUNT).Select(idx => idx.ToString())).SetDefault(0));
+        btnDelDataIdx = menuManagement.AddContent(AddonsUtil.CreateWidget<CustomButton>().SetLabel("删除目标存档").OnPressed(OnDelDataIdx));
 
-        item = archive.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("物品"));
+        menuItem = menuArchive.AddContent(AddonsUtil.CreateWidget<Foldout>().SetTitle("物品"));
 
-        inputItemId = item.AddContent(AddonsUtil.CreateWidget<LineInput>().SetLabel("物品ID："));
-        inputItemCnt = item.AddContent(AddonsUtil.CreateWidget<LineInput>().SetLabel("物品数量："));
+        popupItemId = menuItem.AddContent(AddonsUtil.CreateWidget<LinePopup>().SetLabel("物品ID：").AddData(CSV.ActorBodyPart.Data.Select(data => data.ID)).SetDefault(0));
+        inputItemCnt = menuItem.AddContent(AddonsUtil.CreateWidget<LineInput>().SetLabel("物品数量："));
 
-        btnAddItem = item.AddContent(AddonsUtil.CreateWidget<CustomButton>().SetLabel("添加！").SetPressed(OnAddItem));
+        btnAddItem = menuItem.AddContent(AddonsUtil.CreateWidget<CustomButton>().SetLabel("添加！").OnPressed(OnAddItem));
     }
 
     public override void _ExitTree()
@@ -52,7 +51,7 @@ public partial class GMTools : EditorPlugin
 
     private void OnDelDataIdx()
     {
-        var dataIdx = inputDataIdx.Read().ToInt();
+        var dataIdx = popupDataIdx.Read().ToInt();
 
         if (dataIdx < 0 || dataIdx >= Archive.DATA_COUNT)
         {
@@ -64,23 +63,9 @@ public partial class GMTools : EditorPlugin
         Log.I($"已删除{dataIdx}号存档！");
     }
 
-    private void OnSetDataIdx()
-    {
-        var dataIdx = inputDataIdx.Read().ToInt();
-
-        if (dataIdx < 0 || dataIdx >= Archive.DATA_COUNT)
-        {
-            Log.E($"index不合法，应当为[0, {Archive.DATA_COUNT})范围内的整数！");
-            return;
-        }
-
-        Archive.Current = dataIdx;
-        Log.I($"已定位至{dataIdx}号存档！");
-    }
-
     private void OnAddItem()
     {
-        var itemId = inputItemId.Read();
+        var itemId = popupItemId.Read();
         var itemCnt = inputItemCnt.Read().ToInt();
 
         if (CSV.ActorBodyPart.Get(itemId) == null)

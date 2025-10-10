@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8p7de4qcirbi"]
+
+[ext_resource type="Script" uid="uid://c6dkmdfha3381" path="res://addons/widgets/LinePopup.cs" id="1_nywwh"]
+
+[node name="LinePopup" type="HBoxContainer"]
+script = ExtResource("1_nywwh")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+
+[node name="Option" type="OptionButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3

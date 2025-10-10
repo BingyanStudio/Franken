@@ -27,6 +27,7 @@ public partial class LineInput : Control, IRef
 
     public LineInput SetInput(string target)
     {
+        if (input == null) GetRef();
         input.Text = target;
         return this;
     }

@@ -14,4 +14,9 @@ public static class IEnumerableUtil
     {
         foreach (var item in target) action?.Invoke(item);
     }
+
+    public static IEnumerable<int> Range(int start, int end)
+    {
+        while (start < end) yield return start++;
+    }
 }

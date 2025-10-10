@@ -13,7 +13,7 @@ public partial class CustomButton : Button
         return this;
     }
 
-    public CustomButton SetPressed(Action cbk)
+    public CustomButton OnPressed(Action cbk)
     {
         Pressed += cbk;
         return this;
