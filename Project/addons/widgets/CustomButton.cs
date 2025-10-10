@@ -1,8 +1,22 @@
 #if TOOLS
 using Godot;
+using System;
 
 namespace Franken;
 
 [Tool]
-public partial class CustomButton : Button;
+public partial class CustomButton : Button
+{
+    public CustomButton SetLabel(string label)
+    {
+        Text = label;
+        return this;
+    }
+
+    public CustomButton SetPressed(Action cbk)
+    {
+        Pressed += cbk;
+        return this;
+    }
+}
 #endif

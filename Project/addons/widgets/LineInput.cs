@@ -25,6 +25,12 @@ public partial class LineInput : Control, IRef
         return this;
     }
 
+    public LineInput SetInput(string target)
+    {
+        input.Text = target;
+        return this;
+    }
+
     public string Read() => input.Text;
 }
 #endif

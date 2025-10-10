@@ -1,4 +1,4 @@
-using System.IO;
+using Godot;
 using Godotool;
 
 namespace Franken;
@@ -10,7 +10,7 @@ public static class Archive
 {
     public const int DATA_COUNT = 10;
 
-    public static readonly string root = Path.Combine(ArchiveUtil.Root, "data");
+    public const string ROOT = $"{ArchiveUtil.ROOT}/data";
 
     public static UserData[] Data { get; private set; } = new UserData[DATA_COUNT];
 
@@ -20,7 +20,7 @@ public static class Archive
         get => current;
         set
         {
-            if (value < 0 || value >= Data.Length) Log.E("Archive", $"存档序号{value}超出范围！");
+            if (value < 0 || value >= Data.Length) Log.E($"存档序号{value}超出范围！");
             else current = value;
         }
     }
@@ -28,42 +28,46 @@ public static class Archive
     public static void Save() => Save(Current);
     public static void Save(int idx)
     {
-        var path = FindPath(idx);
-        ArchiveUtil.EnsureDirectory(path);
+        ArchiveUtil.EnsureDirectory(ROOT);
 
-        Log.I("Archive", $"开始保存！路径：{path}");
-        File.WriteAllText(path, ArchiveUtil.Serialize(Data[idx]));
-        Log.I("Archive", $"保存完毕！路径：{path}");
+        var path = FindPath(idx);
+
+        Log.I($"开始保存！路径：{path}");
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+        file.StoreString(ArchiveUtil.Serialize(Data[idx]));
+        Log.I($"保存完毕！路径：{path}");
     }
 
     public static void Load() => Load(Current);
     public static void Load(int idx)
     {
-        var path = FindPath(idx);
-        ArchiveUtil.EnsureDirectory(path);
+        ArchiveUtil.EnsureDirectory(ROOT);
 
-        if (!File.Exists(path))
+        var path = FindPath(idx);
+        if (!FileAccess.FileExists(path))
         {
-            Log.W("Archive", $"无{idx}号存档。");
-            return;
+            using var create = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+            create.StoreString("{}");
         }
 
-        Log.I("Archive", $"开始加载存档！路径：{path}");
-        Data[idx] = ArchiveUtil.Deserialize<UserData>(File.ReadAllText(path));
-        Log.I("Archive", $"加载存档完毕！路径：{path}");
+        Log.I($"开始加载存档！路径：{path}");
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        Data[idx] = ArchiveUtil.Deserialize<UserData>(file.GetAsText());
+        Log.I($"加载存档完毕！路径：{path}");
     }
 
     public static void Delete(int idx)
     {
         var path = FindPath(idx);
-        if (File.Exists(path))
+        if (FileAccess.FileExists(path))
         {
-            Log.I("Archive", $"删除存档{idx}，路径：{path}");
-            File.Delete(path);
+            Log.I($"删除存档{idx}，路径：{path}");
+            DirAccess.RemoveAbsolute(path);
         }
+        else Log.W($"无{idx}号存档，路径：{path}");
     }
 
     public static void LoadAll() => Data.Traverse((idx, _) => Load(idx));
 
-    private static string FindPath(int idx) => Path.Combine(root, $"{idx}.json");
+    private static string FindPath(int idx) => $"{ROOT}/{idx}.json";
 }

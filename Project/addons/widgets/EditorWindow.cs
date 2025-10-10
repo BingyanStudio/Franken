@@ -22,5 +22,11 @@ public partial class EditorWindow : Control, IRef
         content.AddChild(target);
         return target;
     }
+
+    public EditorWindow SetName(string name)
+    {
+        Name = name;
+        return this;
+    }
 }
 #endif
