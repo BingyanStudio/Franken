@@ -159,8 +159,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ghuo0")
-zoomTime = null
-zoomScale = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
@@ -291,6 +289,20 @@ focus_neighbor_top = NodePath("../Torso")
 focus_neighbor_right = NodePath("../UpperRight")
 focus_neighbor_bottom = NodePath(".")
 metadata/Component = "Limb"
+
+[node name="ConfirmBtn" type="Button" parent="HBoxContainer/EditPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4
+anchor_top = 0.8
+anchor_right = 0.6
+anchor_bottom = 0.9
+offset_top = -1.5
+offset_bottom = 1.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+text = "炼 成"
 
 [node name="EditCenter" type="Control" parent="HBoxContainer/EditPanel"]
 layout_mode = 1

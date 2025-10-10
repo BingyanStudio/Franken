@@ -10,4 +10,6 @@ public class UserData
     public static UserData Current => Archive.Data[Archive.Current];
 
     public List<string> ActorBodyParts { get; set; }
+
+    public List<ActorBodyData> ActorBodies { get; set; }
 }

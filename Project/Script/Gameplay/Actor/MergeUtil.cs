@@ -22,10 +22,10 @@ public static class MergeUtil
     /// 将<see cref="CSV.ActorBodyPart"/>融合成<see cref="ActorBody"/>
     /// <br/>融合前记得判断<see cref="CanMerge(IEnumerable{ActorBodyPart})"/>
     /// </summary>
-    public static ActorBody Merge(IEnumerable<CSV.ActorBodyPart> parts) => new()
+    public static ActorBodyData Merge(IEnumerable<string> parts, string name) => new()
     {
-        Stats = CalculateStats(parts.Select(part => ActorBodyPartStats.FromCSV(part.ID))),
-        Parts = parts.ToArray()
+        Name = name,
+        Parts = parts.ToList()
     };
 
     /// <summary>

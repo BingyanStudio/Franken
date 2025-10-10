@@ -54,6 +54,8 @@ public partial class MergeWindow : UIWindowBase, IRef
     #endregion
     [UIRef]
     private LineEdit inputActorName;
+    [UIRef]
+    private BaseButton confirmBtn;
 
     [ObservableProperty("CanZoom")]
     private int currentCompSlotIdx = -1;
@@ -74,7 +76,6 @@ public partial class MergeWindow : UIWindowBase, IRef
 
     private ActorBodyPartSlot[] editCache = new ActorBodyPartSlot[7];
 
-    /// <summary>临时数据源</summary>
     public List<ActorBodyPartSlot> Parts { get; private set; } = [];
 
     private void Bind()
@@ -132,22 +133,18 @@ public partial class MergeWindow : UIWindowBase, IRef
             CurrentCompSlotIdx = (compList.Count + CurrentCompSlotIdx + offset) % compList.Count;
         prev.Pressed += () => ChangeComp(-1);
         next.Pressed += () => ChangeComp(1);
+
+        confirmBtn.Pressed += OnConfirm;
     }
 
     public override void Setup()
     {
-        // 临时背包数据
-        CSV.ActorBodyPart.Data.ForEach(data =>
-        {
-            for (int i = 0; i < 11; i++) Parts.Add(new(data));
-        });
-
         base.Setup();
 
         GetRef();
 
-        ResetSkillPanel();
-        RefreshStats(new ActorStats());
+        // 暂时在此加载存档
+        Archive.Load();
 
         Bind();
 
@@ -178,6 +175,8 @@ public partial class MergeWindow : UIWindowBase, IRef
     {
         base.Init();
 
+        Reset();
+
         CurrentCompSlotIdx = -1;
         editCache = new ActorBodyPartSlot[7];
         currentParts = [];
@@ -205,8 +204,6 @@ public partial class MergeWindow : UIWindowBase, IRef
             var part = targetParts[idx];
             SetSlot(slot, part);
 
-            part.OnSelectedChanged = (_, selected) => btn.Disabled = selected && 
-                editCache[CurrentCompSlotIdx] != null && editCache[CurrentCompSlotIdx] != part;
             btn.Disabled = part.Selected && editCache[CurrentCompSlotIdx] != part;
             if (part.Selected && editCache[currentCompSlotIdx] == part) btn.GrabFocus();
 
@@ -273,6 +270,16 @@ public partial class MergeWindow : UIWindowBase, IRef
         RefreshSkills(
             part.Item.Active.Select(CSV.ActiveConf.Get).ToArray(),
             part.Item.Passive.Select(CSV.PassiveConf.Get).ToArray());
+    }
+
+    private void PrepareData()
+    {
+        Parts.Clear();
+        // 背包数据
+        UserData.Current.ActorBodyParts?.ForEach(data => Parts.Add(new(CSV.ActorBodyPart.Get(data))));
+        // 临时数据
+        if (Parts.Count == 0) CSV.ActorBodyPart.Data.ForEach(data =>
+            IEnumerableUtil.Range(0, 10).ForEach(_ => Parts.Add(new(data))));
     }
 
     private void ResetSkillPanel()
@@ -342,5 +349,49 @@ public partial class MergeWindow : UIWindowBase, IRef
                 .Distinct().Select(CSV.ActiveConf.Get).ToArray(),
             currentParts.SelectMany(part => part.Item.Passive)
                 .Distinct().Select(CSV.PassiveConf.Get).ToArray());
+    }
+
+    private void ResetEditSlots() => partSlots.TraverseChildren(slot => SetSlot(slot, null));
+
+    private void Reset()
+    {
+        PrepareData();
+
+        ResetSkillPanel();
+        RefreshStats(new ActorStats());
+
+        ResetEditSlots();
+    }
+
+    private void OnConfirm()
+    {
+        var parts = currentParts.Select(part => part.Item);
+        var name = inputActorName.Text;
+
+        if (!MergeUtil.CanMerge(parts))
+        {
+            Log.W($"至少需要{CSV.ActorBodyPart.Component.Head.GetDescription()}、{CSV.ActorBodyPart.Component.Torso.GetDescription()}、{CSV.ActorBodyPart.Component.Head.GetDescription()}与一处{CSV.ActorBodyPart.Component.Limb.GetDescription()}");
+            return;
+        }
+        if (name.Length == 0)
+        {
+            Log.W("名称至少需要一个字符");
+            return;
+        }
+        if (UserData.Current.ActorBodies.Any(actor => actor.Name == name))
+        {
+            Log.W("存档中存在相同名称");
+            return;
+        }
+
+        var ids = parts.Select(part => part.ID);
+
+        (UserData.Current.ActorBodies ??= []).Add(MergeUtil.Merge(ids, name));
+        if (UserData.Current.ActorBodies != null)
+            foreach (var id in ids) UserData.Current.ActorBodyParts.Remove(id);
+
+        Archive.Save();
+
+        Init();
     }
 }

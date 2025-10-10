@@ -5,14 +5,14 @@ namespace Franken;
 
 public class ActorBody
 {
+    public ActorBodyData Data;
 
-    public ActorStats Stats { get; set; }
-
-    public CSV.ActorBodyPart[] Parts { get; set; }
+    private ActorStats stats;
+    public ActorStats Stats => stats ??= MergeUtil.CalculateStats(Data.Parts.Select(ActorBodyPartStats.FromCSV));
 
     // 感觉这里性能并不吃紧，所以直接查好了
-    public CSV.ActorBodyPart Head => Parts.First(part => part.Comp == CSV.ActorBodyPart.Component.Head);
-    public CSV.ActorBodyPart Heart => Parts.First(part => part.Comp == CSV.ActorBodyPart.Component.Heart);
-    public CSV.ActorBodyPart Torso => Parts.First(part => part.Comp == CSV.ActorBodyPart.Component.Torso);
-    public IEnumerable<CSV.ActorBodyPart> Limbs => Parts.Where(part => part.Comp == CSV.ActorBodyPart.Component.Limb);
+    public CSV.ActorBodyPart Head => Data.Parts.Select(CSV.ActorBodyPart.Get).First(part => part.Comp == CSV.ActorBodyPart.Component.Head);
+    public CSV.ActorBodyPart Heart => Data.Parts.Select(CSV.ActorBodyPart.Get).First(part => part.Comp == CSV.ActorBodyPart.Component.Heart);
+    public CSV.ActorBodyPart Torso => Data.Parts.Select(CSV.ActorBodyPart.Get).First(part => part.Comp == CSV.ActorBodyPart.Component.Torso);
+    public IEnumerable<CSV.ActorBodyPart> Limbs => Data.Parts.Select(CSV.ActorBodyPart.Get).Where(part => part.Comp == CSV.ActorBodyPart.Component.Limb);
 }
